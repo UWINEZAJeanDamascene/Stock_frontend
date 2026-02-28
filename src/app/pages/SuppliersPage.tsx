@@ -255,20 +255,20 @@ export default function SuppliersPage() {
 
   return (
     <Layout>
-      <div className="p-6">
-        <div className="flex items-center justify-between mb-6">
+      <div className="p-3 md:p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 md:mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-slate-800">Suppliers</h1>
-            <p className="text-slate-500">Manage supplier relationships</p>
+            <h1 className="text-xl md:text-2xl font-bold text-slate-800">Suppliers</h1>
+            <p className="text-sm text-slate-500 hidden sm:block">Manage supplier relationships</p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <div className="relative group">
               <button 
                 disabled={exporting}
-                className="flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 disabled:opacity-50"
+                className="flex items-center gap-2 px-3 md:px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 disabled:opacity-50 text-sm"
               >
-                <FileDown className="h-5 w-5" />
-                {exporting ? 'Exporting...' : 'Export'}
+                <FileDown className="h-4 w-4" />
+                <span className="hidden sm:inline">{exporting ? 'Exporting...' : 'Export'}</span>
               </button>
               <div className="absolute right-0 mt-1 w-40 bg-white border rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
                 <button 
@@ -285,8 +285,8 @@ export default function SuppliersPage() {
                 </button>
               </div>
             </div>
-            <button onClick={() => openModal()} className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
-              <Plus className="h-5 w-5" /> Add Supplier
+            <button onClick={() => openModal()} className="flex items-center gap-1 md:gap-2 px-3 md:px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm">
+              <Plus className="h-4 w-4" /> <span className="hidden sm:inline">Add Supplier</span>
             </button>
           </div>
         </div>
@@ -294,21 +294,21 @@ export default function SuppliersPage() {
         {error && <div className="mb-4 p-3 bg-red-50 text-red-600 rounded-lg">{error}</div>}
 
         {/* Filters */}
-        <div className="flex flex-wrap gap-4 mb-6">
-          <div className="relative flex-1 min-w-[200px] max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
+        <div className="flex flex-col sm:flex-row gap-2 md:gap-4 mb-4 md:mb-6">
+          <div className="relative flex-1 min-w-[150px] max-w-md">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
             <input 
               type="text" 
-              placeholder="Search suppliers..." 
+              placeholder="Search..." 
               value={searchTerm} 
               onChange={(e) => setSearchTerm(e.target.value)} 
-              className="w-full pl-10 pr-4 py-2.5 rounded-lg border" 
+              className="w-full pl-9 pr-3 py-2 rounded-lg border text-sm" 
             />
           </div>
           <select 
             value={filterStatus} 
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="px-4 py-2.5 rounded-lg border"
+            className="px-3 py-2 rounded-lg border text-sm min-w-[100px]"
           >
             <option value="">All Status</option>
             <option value="true">Active</option>
@@ -317,9 +317,9 @@ export default function SuppliersPage() {
         </div>
 
         {loading ? (
-          <div className="flex justify-center py-12"><Loader2 className="h-8 w-8 animate-spin" /></div>
+          <div className="flex justify-center py-8 md:py-12"><Loader2 className="h-6 w-6 md:h-8 md:w-8 animate-spin" /></div>
         ) : filteredSuppliers.length === 0 ? (
-          <div className="text-center py-12 text-slate-500">No suppliers found</div>
+          <div className="text-center py-8 md:py-12 text-slate-500">No suppliers found</div>
         ) : (
           <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
             <div className="overflow-x-auto">
@@ -433,18 +433,18 @@ export default function SuppliersPage() {
 
         {/* Add/Edit Supplier Modal */}
         {showModal && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
-              <div className="flex items-center justify-between p-6 border-b">
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-3">
+            <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+              <div className="flex items-center justify-between p-4 md:p-6 border-b">
                 <h2 className="text-lg font-semibold">{editingSupplier ? 'Edit Supplier' : 'Add Supplier'}</h2>
                 <button onClick={() => setShowModal(false)} className="p-2 hover:bg-slate-100 rounded"><X className="h-5 w-5" /></button>
               </div>
-              <form onSubmit={handleSubmit} className="p-6 space-y-4">
+              <form onSubmit={handleSubmit} className="p-4 md:p-6 space-y-4">
                 <div>
                   <label className="block text-sm font-medium mb-1">Name *</label>
                   <input type="text" value={formName} onChange={(e) => setFormName(e.target.value)} className="w-full p-2 border rounded-lg" required />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium mb-1">Email</label>
                     <input type="email" value={formEmail} onChange={(e) => setFormEmail(e.target.value)} className="w-full p-2 border rounded-lg" />
@@ -458,7 +458,7 @@ export default function SuppliersPage() {
                   <label className="block text-sm font-medium mb-1">Address</label>
                   <input type="text" value={formAddress} onChange={(e) => setFormAddress(e.target.value)} className="w-full p-2 border rounded-lg" />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium mb-1">City</label>
                     <input type="text" value={formCity} onChange={(e) => setFormCity(e.target.value)} className="w-full p-2 border rounded-lg" />
@@ -468,7 +468,7 @@ export default function SuppliersPage() {
                     <input type="text" value={formCountry} onChange={(e) => setFormCountry(e.target.value)} className="w-full p-2 border rounded-lg" />
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium mb-1">Tax ID</label>
                     <input type="text" value={formTaxId} onChange={(e) => setFormTaxId(e.target.value)} className="w-full p-2 border rounded-lg" />
@@ -501,13 +501,13 @@ export default function SuppliersPage() {
 
         {/* Products Modal */}
         {showProductsModal && selectedSupplierProducts && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-xl shadow-xl w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
-              <div className="flex items-center justify-between p-6 border-b">
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-3">
+            <div className="bg-white rounded-xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+              <div className="flex items-center justify-between p-4 md:p-6 border-b">
                 <h2 className="text-lg font-semibold">Products Supplied by {selectedSupplierProducts.name}</h2>
                 <button onClick={() => setShowProductsModal(false)} className="p-2 hover:bg-slate-100 rounded"><X className="h-5 w-5" /></button>
               </div>
-              <div className="p-6">
+              <div className="p-4 md:p-6">
                 {selectedSupplierProducts.productsSupplied && selectedSupplierProducts.productsSupplied.length > 0 ? (
                   <div className="space-y-2">
                     {selectedSupplierProducts.productsSupplied.map((product) => (

@@ -174,11 +174,11 @@ export default function DashboardPage() {
 
   return (
     <Layout>
-      <div className="p-6">
+      <div className="p-3 md:p-6">
         {/* Header */}
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-slate-800">Dashboard</h1>
-          <p className="text-slate-500">Welcome back! Here's what's happening with your business.</p>
+        <div className="mb-4 md:mb-6">
+          <h1 className="text-xl md:text-2xl font-bold text-slate-800">Dashboard</h1>
+          <p className="text-sm md:text-base text-slate-500 hidden sm:block">Welcome back! Here's what's happening with your business.</p>
         </div>
 
         {loading ? (
@@ -192,36 +192,36 @@ export default function DashboardPage() {
         ) : (
           <>
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6">
               {statCards.map((stat, index) => (
-                <div key={index} className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className={`p-3 rounded-lg ${stat.color}`}>
-                      <stat.icon className="h-5 w-5 text-white" />
+                <div key={index} className="bg-white rounded-xl p-4 md:p-6 shadow-sm border border-slate-200">
+                  <div className="flex items-center justify-between mb-3 md:mb-4">
+                    <div className={`p-2.5 md:p-3 rounded-lg ${stat.color}`}>
+                      <stat.icon className="h-4 w-4 md:h-5 md:w-5 text-white" />
                     </div>
-                    <div className={`flex items-center gap-1 text-sm font-medium ${
+                    <div className={`flex items-center gap-1 text-xs md:text-sm font-medium ${
                       stat.trend === 'up' ? 'text-green-600' : 'text-red-600'
                     }`}>
                       {stat.trend === 'up' ? (
-                        <ArrowUpRight className="h-4 w-4" />
+                        <ArrowUpRight className="h-3 w-3 md:h-4 md:w-4" />
                       ) : (
-                        <ArrowDownRight className="h-4 w-4" />
+                        <ArrowDownRight className="h-3 w-3 md:h-4 md:w-4" />
                       )}
                       {stat.change}
                     </div>
                   </div>
-                  <h3 className="text-slate-500 text-sm font-medium">{stat.title}</h3>
-                  <p className="text-2xl font-bold text-slate-800 mt-1">{stat.value}</p>
+                  <h3 className="text-slate-500 text-xs md:text-sm font-medium">{stat.title}</h3>
+                  <p className="text-xl md:text-2xl font-bold text-slate-800 mt-1">{stat.value}</p>
                 </div>
               ))}
             </div>
 
             {/* Charts */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-6">
               {/* Sales Chart */}
-              <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-slate-800">Sales Overview</h3>
+              <div className="bg-white rounded-xl p-4 md:p-6 shadow-sm border border-slate-200">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                  <h3 className="text-base md:text-lg font-semibold text-slate-800">Sales Overview</h3>
                   <div className="flex gap-1">
                     <button 
                       onClick={() => setSalesPeriod('week')}
@@ -362,24 +362,24 @@ export default function DashboardPage() {
             </div>
 
             {/* Invoice Summary */}
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+            <div className="bg-white rounded-xl p-4 md:p-6 shadow-sm border border-slate-200">
               <h3 className="text-lg font-semibold text-slate-800 mb-4">Invoice Summary</h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="p-4 bg-slate-50 rounded-lg">
-                  <p className="text-sm text-slate-500">Total Invoices</p>
-                  <p className="text-2xl font-bold text-slate-800">{data?.invoices?.total || 0}</p>
+              <div className="grid grid-cols-2 gap-3 md:gap-4">
+                <div className="p-3 md:p-4 bg-slate-50 rounded-lg">
+                  <p className="text-xs md:text-sm text-slate-500">Total Invoices</p>
+                  <p className="text-xl md:text-2xl font-bold text-slate-800">{data?.invoices?.total || 0}</p>
                 </div>
-                <div className="p-4 bg-yellow-50 rounded-lg">
-                  <p className="text-sm text-slate-500">Pending</p>
-                  <p className="text-2xl font-bold text-yellow-600">{data?.invoices?.pending || 0}</p>
+                <div className="p-3 md:p-4 bg-yellow-50 rounded-lg">
+                  <p className="text-xs md:text-sm text-slate-500">Pending</p>
+                  <p className="text-xl md:text-2xl font-bold text-yellow-600">{data?.invoices?.pending || 0}</p>
                 </div>
-                <div className="p-4 bg-green-50 rounded-lg">
-                  <p className="text-sm text-slate-500">Monthly Paid</p>
-                  <p className="text-2xl font-bold text-green-600">FRW {data?.invoices?.monthly?.paid?.toLocaleString() || 0}</p>
+                <div className="p-3 md:p-4 bg-green-50 rounded-lg">
+                  <p className="text-xs md:text-sm text-slate-500">Monthly Paid</p>
+                  <p className="text-lg md:text-2xl font-bold text-green-600">FRW {data?.invoices?.monthly?.paid?.toLocaleString() || 0}</p>
                 </div>
-                <div className="p-4 bg-blue-50 rounded-lg">
-                  <p className="text-sm text-slate-500">Yearly Total</p>
-                  <p className="text-2xl font-bold text-blue-600">FRW {data?.invoices?.yearly?.total?.toLocaleString() || 0}</p>
+                <div className="p-3 md:p-4 bg-blue-50 rounded-lg">
+                  <p className="text-xs md:text-sm text-slate-500">Yearly Total</p>
+                  <p className="text-lg md:text-2xl font-bold text-blue-600">FRW {data?.invoices?.yearly?.total?.toLocaleString() || 0}</p>
                 </div>
               </div>
             </div>

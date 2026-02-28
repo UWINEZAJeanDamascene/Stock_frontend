@@ -169,33 +169,35 @@ export default function StockPage() {
 
   return (
     <Layout>
-      <div className="p-6">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-800">Stock Movements</h1>
-            <p className="text-slate-500">Track stock in, out, and adjustments</p>
-          </div>
-          <div className="flex gap-2">
-            <button onClick={() => openModal('in')} className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg">
-              <Plus className="h-5 w-5" /> Stock In
-            </button>
-            <button onClick={() => openModal('out')} className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg">
-              <Plus className="h-5 w-5" /> Stock Out
-            </button>
-            <button onClick={() => openModal('adjustment')} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg">
-              <Plus className="h-5 w-5" /> Adjustment
-            </button>
+      <div className="p-3 md:p-6">
+        <div className="flex flex-col gap-3 mb-4 md:mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h1 className="text-xl md:text-2xl font-bold text-slate-800">Stock Movements</h1>
+              <p className="text-sm text-slate-500 hidden sm:block">Track stock in, out, and adjustments</p>
+            </div>
+            <div className="flex gap-2 flex-wrap">
+              <button onClick={() => openModal('in')} className="flex items-center gap-1 md:gap-2 px-3 md:px-4 py-2 bg-green-600 text-white rounded-lg text-sm">
+                <Plus className="h-4 w-4" /> <span className="hidden sm:inline">Stock In</span>
+              </button>
+              <button onClick={() => openModal('out')} className="flex items-center gap-1 md:gap-2 px-3 md:px-4 py-2 bg-red-600 text-white rounded-lg text-sm">
+                <Plus className="h-4 w-4" /> <span className="hidden sm:inline">Stock Out</span>
+              </button>
+              <button onClick={() => openModal('adjustment')} className="flex items-center gap-1 md:gap-2 px-3 md:px-4 py-2 bg-blue-600 text-white rounded-lg text-sm">
+                <Plus className="h-4 w-4" /> <span className="hidden sm:inline">Adjustment</span>
+              </button>
+            </div>
           </div>
         </div>
 
         {error && <div className="mb-4 p-3 bg-red-50 text-red-600 rounded-lg">{error}</div>}
 
-        <div className="flex gap-4 mb-6">
+        <div className="flex flex-col sm:flex-row gap-2 md:gap-4 mb-4 md:mb-6">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
-            <input type="text" placeholder="Search by product name..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="w-full max-w-md pl-10 pr-4 py-2.5 rounded-lg border" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+            <input type="text" placeholder="Search..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="w-full max-w-sm pl-9 pr-3 py-2 rounded-lg border text-sm" />
           </div>
-          <select value={filterType} onChange={(e) => setFilterType(e.target.value)} className="px-4 py-2.5 rounded-lg border">
+          <select value={filterType} onChange={(e) => setFilterType(e.target.value)} className="px-3 py-2 rounded-lg border text-sm min-w-[120px]">
             <option value="">All Types</option>
             <option value="in">Stock In</option>
             <option value="out">Stock Out</option>
@@ -204,9 +206,9 @@ export default function StockPage() {
         </div>
 
         {loading ? (
-          <div className="flex justify-center py-12"><Loader2 className="h-8 w-8 animate-spin" /></div>
+          <div className="flex justify-center py-8 md:py-12"><Loader2 className="h-6 w-6 md:h-8 md:w-8 animate-spin" /></div>
         ) : movements.length === 0 ? (
-          <div className="text-center py-12 text-slate-500">No stock movements found</div>
+          <div className="text-center py-8 md:py-12 text-slate-500">No stock movements found</div>
         ) : (
           <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
             <div className="overflow-x-auto">
@@ -277,13 +279,13 @@ export default function StockPage() {
         )}
 
         {showModal && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-xl shadow-xl w-full max-w-lg mx-4">
-              <div className="flex items-center justify-between p-6 border-b">
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-3">
+            <div className="bg-white rounded-xl shadow-xl w-full max-w-lg">
+              <div className="flex items-center justify-between p-4 md:p-6 border-b">
                 <h2 className="text-lg font-semibold">{getTypeLabel(modalType)}</h2>
                 <button onClick={() => setShowModal(false)} className="p-2 hover:bg-slate-100 rounded"><X className="h-5 w-5" /></button>
               </div>
-              <form onSubmit={handleSubmit} className="p-6 space-y-4">
+              <form onSubmit={handleSubmit} className="p-4 md:p-6 space-y-4">
                 <div>
                   <label className="block text-sm font-medium mb-1">Product *</label>
                   <select value={formProduct} onChange={(e) => setFormProduct(e.target.value)} className="w-full p-2 border rounded-lg" required>
@@ -295,7 +297,7 @@ export default function StockPage() {
                     ))}
                   </select>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium mb-1">Quantity *</label>
                     <input type="number" min="1" value={formQuantity} onChange={(e) => setFormQuantity(parseInt(e.target.value) || 1)} className="w-full p-2 border rounded-lg" required />

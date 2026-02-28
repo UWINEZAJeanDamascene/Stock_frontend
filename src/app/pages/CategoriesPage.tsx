@@ -81,32 +81,32 @@ export default function CategoriesPage() {
 
   return (
     <Layout>
-      <div className="p-6">
-        <div className="flex items-center justify-between mb-6">
+      <div className="p-3 md:p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 md:mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-slate-800">Categories</h1>
-            <p className="text-slate-500">Manage categories</p>
+            <h1 className="text-xl md:text-2xl font-bold text-slate-800">Categories</h1>
+            <p className="text-sm text-slate-500 hidden sm:block">Manage categories</p>
           </div>
-          <button onClick={() => { setEditingCategory(null); setShowModal(true); }} className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg">
-            <Plus className="h-5 w-5" /> Add Category
+          <button onClick={() => { setEditingCategory(null); setShowModal(true); }} className="flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg w-full sm:w-auto">
+            <Plus className="h-4 w-4" /> Add Category
           </button>
         </div>
 
         {error && <div className="mb-4 p-3 bg-red-50 text-red-600 rounded-lg">{error}</div>}
 
-        <div className="relative mb-6">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
-          <input type="text" placeholder="Search..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="w-full max-w-md pl-10 pr-4 py-2.5 rounded-lg border" />
+        <div className="relative mb-4 md:mb-6">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+          <input type="text" placeholder="Search..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="w-full max-w-sm pl-9 pr-3 py-2 rounded-lg border text-sm" />
         </div>
 
         {loading ? (
-          <div className="flex justify-center py-12"><Loader2 className="h-8 w-8 animate-spin" /></div>
+          <div className="flex justify-center py-8 md:py-12"><Loader2 className="h-6 w-6 md:h-8 md:w-8 animate-spin" /></div>
         ) : filteredCategories.length === 0 ? (
-          <div className="text-center py-12 text-slate-500">No categories</div>
+          <div className="text-center py-8 md:py-12 text-slate-500">No categories</div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
             {filteredCategories.map((category) => (
-              <div key={category._id} className="bg-white rounded-xl p-6 shadow-sm border">
+              <div key={category._id} className="bg-white rounded-xl p-4 md:p-6 shadow-sm border">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
                     <div className="p-3 rounded-lg bg-indigo-100"><Tags className="h-5 w-5 text-indigo-600" /></div>
@@ -129,13 +129,13 @@ export default function CategoriesPage() {
         )}
 
         {showModal && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-xl shadow-xl w-full max-w-md mx-4">
-              <div className="flex items-center justify-between p-6 border-b">
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-3">
+            <div className="bg-white rounded-xl shadow-xl w-full max-w-md">
+              <div className="flex items-center justify-between p-4 md:p-6 border-b">
                 <h2 className="text-lg font-semibold">{editingCategory ? 'Edit' : 'Add'} Category</h2>
                 <button onClick={() => { setShowModal(false); setEditingCategory(null); }} className="p-2 hover:bg-slate-100 rounded"><X className="h-5 w-5" /></button>
               </div>
-              <form onSubmit={handleSubmit} className="p-6 space-y-4">
+              <form onSubmit={handleSubmit} className="p-4 md:p-6 space-y-4">
                 <div>
                   <label className="block text-sm font-medium mb-1">Name *</label>
                   <input type="text" name="name" defaultValue={editingCategory?.name} className="w-full p-2 border rounded-lg" required />

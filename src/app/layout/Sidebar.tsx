@@ -11,10 +11,12 @@ import {
   Quote, 
   BarChart3,
   Settings,
-  LogOut
+  LogOut,
+  X
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '../components/ui/utils';
+import { Button } from '@/app/components/ui/button';
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
@@ -29,18 +31,40 @@ const navigation = [
   { name: 'Reports', href: '/reports', icon: BarChart3 },
 ];
 
-export function Sidebar() {
+interface SidebarProps {
+  onNavigate?: () => void;
+}
+
+export function Sidebar({ onNavigate }: SidebarProps) {
   const location = useLocation();
   const { user, logout } = useAuth();
+
+  const handleNavigate = () => {
+    if (onNavigate) {
+      onNavigate();
+    }
+  };
 
   return (
     <div className="flex h-screen w-64 flex-col bg-slate-900">
       {/* Logo */}
-      <div className="flex h-16 items-center gap-2 border-b border-slate-800 px-6">
-        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-600">
-          <Warehouse className="h-5 w-5 text-white" />
+      <div className="flex h-16 items-center justify-between gap-2 border-b border-slate-800 px-4">
+        <div className="flex items-center gap-2">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-600">
+            <Warehouse className="h-5 w-5 text-white" />
+          </div>
+          <span className="text-lg font-semibold text-white hidden sm:inline">StockManager</span>
         </div>
-        <span className="text-lg font-semibold text-white">StockManager</span>
+        {onNavigate && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onNavigate}
+            className="h-8 w-8 text-slate-400 hover:text-white hover:bg-slate-800 lg:hidden"
+          >
+            <X className="h-4 w-4" />
+          </Button>
+        )}
       </div>
 
       {/* Navigation */}
@@ -52,6 +76,7 @@ export function Sidebar() {
               <li key={item.name}>
                 <Link
                   to={item.href}
+                  onClick={handleNavigate}
                   className={cn(
                     'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
                     isActive
@@ -82,14 +107,16 @@ export function Sidebar() {
         <div className="flex gap-2">
           <Link
             to="/settings"
+            onClick={handleNavigate}
             className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-slate-800 px-3 py-2 text-sm font-medium text-slate-300 hover:bg-slate-700 hover:text-white transition-colors"
           >
             <Settings className="h-4 w-4" />
-            Settings
+            <span className="hidden sm:inline">Settings</span>
           </Link>
           <button
             onClick={() => logout()}
             className="flex items-center justify-center rounded-lg bg-slate-800 p-2 text-slate-300 hover:bg-red-600 hover:text-white transition-colors"
+            title="Logout"
           >
             <LogOut className="h-4 w-4" />
           </button>

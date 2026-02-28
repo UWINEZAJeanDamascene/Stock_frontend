@@ -66,23 +66,23 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-900">
-      <div className="w-full max-w-md p-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-900 p-4">
+      <div className="w-full max-w-md">
         {/* Logo */}
-        <div className="flex justify-center mb-8">
-          <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-600 shadow-lg shadow-indigo-500/30">
-              <Warehouse className="h-7 w-7 text-white" />
+        <div className="flex justify-center mb-6 md:mb-8">
+          <div className="flex items-center gap-2 md:gap-3">
+            <div className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-xl bg-indigo-600 shadow-lg shadow-indigo-500/30">
+              <Warehouse className="h-5 w-5 md:h-7 md:w-7 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white">StockManager</h1>
-              <p className="text-xs text-slate-400">Inventory Management System</p>
+              <h1 className="text-xl md:text-2xl font-bold text-white">StockManager</h1>
+              <p className="text-xs text-slate-400 hidden sm:block">Inventory Management System</p>
             </div>
           </div>
         </div>
 
         {/* Login/Register Card */}
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+        <div className="bg-white rounded-2xl shadow-xl p-5 md:p-8">
           <div className="flex mb-6">
             <button
               type="button"
