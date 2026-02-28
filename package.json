@@ -8,8 +8,8 @@
     "dev": "vite"
   },
   "engines": {
-    "node": "18.x"
-  },
+  "node": "24.x"
+},
   "dependencies": {
     "react": "18.3.1",
     "react-dom": "18.3.1",
