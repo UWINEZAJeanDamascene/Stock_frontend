@@ -3,6 +3,7 @@ import { Layout } from '../layout/Layout';
 import { purchasesApi, suppliersApi, productsApi } from '@/lib/api';
 import { formatCurrency } from '@/lib/utils';
 import { FileText, Plus, Search, Eye, Download, X, Loader2, DollarSign, Clock, CheckCircle, CreditCard, Trash2, Package, AlertCircle, Trash } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface PurchaseItem {
   product: { _id: string; name: string; sku: string };
@@ -114,6 +115,7 @@ const PAYMENT_METHODS = [
 ];
 
 export default function PurchasesPage() {
+  const { hasPermission } = useAuth();
   const [purchases, setPurchases] = useState<Purchase[]>([]);
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
   const [products, setProducts] = useState<Product[]>([]);

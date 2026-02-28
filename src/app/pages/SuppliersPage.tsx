@@ -3,6 +3,7 @@ import { Layout } from '../layout/Layout';
 import { suppliersApi, reportsApi } from '@/lib/api';
 import { useNavigate } from 'react-router';
 import { Truck, Plus, Search, X, Loader2, FileDown, MoreHorizontal, Eye, Edit, History, Power, Package } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface Supplier {
   _id: string;
@@ -47,6 +48,7 @@ function formatCurrency(value: number | undefined | null): string {
 
 export default function SuppliersPage() {
   const navigate = useNavigate();
+  const { hasPermission } = useAuth();
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -253,6 +255,8 @@ export default function SuppliersPage() {
     return parts.length > 0 ? parts.join(', ') : '-';
   };
 
+const canEditSuppliers = hasPermission('suppliers:create') || hasPermission('suppliers:update') || hasPermission('suppliers:delete');
+
   return (
     <Layout>
       <div className="p-3 md:p-6">
@@ -285,9 +289,11 @@ export default function SuppliersPage() {
                 </button>
               </div>
             </div>
-            <button onClick={() => openModal()} className="flex items-center gap-1 md:gap-2 px-3 md:px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm">
-              <Plus className="h-4 w-4" /> <span className="hidden sm:inline">Add Supplier</span>
-            </button>
+            {hasPermission('suppliers:create') && (
+              <button onClick={() => openModal()} className="flex items-center gap-1 md:gap-2 px-3 md:px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm">
+                <Plus className="h-4 w-4" /> <span className="hidden sm:inline">Add Supplier</span>
+              </button>
+            )}
           </div>
         </div>
 
@@ -391,34 +397,38 @@ export default function SuppliersPage() {
                                 >
                                   <Eye className="h-4 w-4" /> View Profile
                                 </button>
-                                <button 
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    openModal(supplier);
-                                  }}
-                                  className="w-full text-left px-4 py-2 hover:bg-slate-50 text-sm flex items-center gap-2"
-                                >
-                                  <Edit className="h-4 w-4" /> Edit
-                                </button>
-                                <button 
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleViewSupplyHistory(supplier);
-                                  }}
-                                  className="w-full text-left px-4 py-2 hover:bg-slate-50 text-sm flex items-center gap-2"
-                                >
-                                  <History className="h-4 w-4" /> Supply History
-                                </button>
-                                <hr className="my-1" />
-                                <button 
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleToggleStatus(supplier._id);
-                                  }}
-                                  className="w-full text-left px-4 py-2 hover:bg-slate-50 text-sm flex items-center gap-2"
-                                >
-                                  <Power className="h-4 w-4" /> {supplier.isActive ? 'Deactivate' : 'Activate'}
-                                </button>
+                                {hasPermission('suppliers:update') && (
+                                  <>
+                                    <button 
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        openModal(supplier);
+                                      }}
+                                      className="w-full text-left px-4 py-2 hover:bg-slate-50 text-sm flex items-center gap-2"
+                                    >
+                                      <Edit className="h-4 w-4" /> Edit
+                                    </button>
+                                    <button 
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleViewSupplyHistory(supplier);
+                                      }}
+                                      className="w-full text-left px-4 py-2 hover:bg-slate-50 text-sm flex items-center gap-2"
+                                    >
+                                      <History className="h-4 w-4" /> Supply History
+                                    </button>
+                                    <hr className="my-1" />
+                                    <button 
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleToggleStatus(supplier._id);
+                                      }}
+                                      className="w-full text-left px-4 py-2 hover:bg-slate-50 text-sm flex items-center gap-2"
+                                    >
+                                      <Power className="h-4 w-4" /> {supplier.isActive ? 'Deactivate' : 'Activate'}
+                                    </button>
+                                  </>
+                                )}
                               </div>
                             )}
                         </div>

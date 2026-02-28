@@ -3,6 +3,7 @@ import { Layout } from '../layout/Layout';
 import { clientsApi } from '@/lib/api';
 import { useNavigate } from 'react-router';
 import { Users, Plus, Search, Edit, Trash2, X, Loader2, FileDown, MoreHorizontal, Eye, History, Power, Filter } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface Client {
   _id: string;
@@ -49,6 +50,7 @@ function formatCurrency(value: number | undefined | null): string {
 
 export default function ClientsPage() {
   const navigate = useNavigate();
+  const { hasPermission } = useAuth();
   const [clients, setClients] = useState<Client[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -237,6 +239,8 @@ export default function ClientsPage() {
     client.code?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+const canEditClients = hasPermission('clients:create') || hasPermission('clients:update') || hasPermission('clients:delete');
+
   return (
     <Layout>
       <div className="p-3 md:p-6">
@@ -252,9 +256,11 @@ export default function ClientsPage() {
             >
               <FileDown className="h-4 w-4" /> <span className="hidden sm:inline">Export</span>
             </button>
-            <button onClick={() => openModal()} className="flex items-center justify-center gap-2 px-3 py-2 bg-indigo-600 text-white rounded-lg flex-1 sm:flex-none text-sm">
-              <Plus className="h-4 w-4" /> <span className="hidden sm:inline">Add Client</span>
-            </button>
+            {hasPermission('clients:create') && (
+              <button onClick={() => openModal()} className="flex items-center justify-center gap-2 px-3 py-2 bg-indigo-600 text-white rounded-lg flex-1 sm:flex-none text-sm">
+                <Plus className="h-4 w-4" /> <span className="hidden sm:inline">Add Client</span>
+              </button>
+            )}
           </div>
         </div>
 
@@ -367,32 +373,40 @@ export default function ClientsPage() {
                             >
                               <Eye className="h-4 w-4" /> View Profile
                             </button>
-                            <button 
-                              onClick={() => openModal(client)}
-                              className="w-full px-4 py-2 text-left text-sm hover:bg-slate-50 flex items-center gap-2"
-                            >
-                              <Edit className="h-4 w-4" /> Edit
-                            </button>
-                            <button 
-                              onClick={() => handleViewHistory(client._id)}
-                              className="w-full px-4 py-2 text-left text-sm hover:bg-slate-50 flex items-center gap-2"
-                            >
-                              <History className="h-4 w-4" /> Purchase History
-                            </button>
-                            <button 
-                              onClick={() => handleToggleStatus(client._id)}
-                              className="w-full px-4 py-2 text-left text-sm hover:bg-slate-50 flex items-center gap-2"
-                            >
-                              <Power className="h-4 w-4" /> 
-                              {client.isActive ? 'Deactivate' : 'Activate'}
-                            </button>
-                            <hr className="my-1" />
-                            <button 
-                              onClick={() => handleDelete(client._id)}
-                              className="w-full px-4 py-2 text-left text-sm hover:bg-slate-50 flex items-center gap-2 text-red-600"
-                            >
-                              <Trash2 className="h-4 w-4" /> Delete
-                            </button>
+                            {hasPermission('clients:update') && (
+                              <>
+                                <button 
+                                  onClick={() => openModal(client)}
+                                  className="w-full px-4 py-2 text-left text-sm hover:bg-slate-50 flex items-center gap-2"
+                                >
+                                  <Edit className="h-4 w-4" /> Edit
+                                </button>
+                                <button 
+                                  onClick={() => handleViewHistory(client._id)}
+                                  className="w-full px-4 py-2 text-left text-sm hover:bg-slate-50 flex items-center gap-2"
+                                >
+                                  <History className="h-4 w-4" /> Purchase History
+                                </button>
+                                <button 
+                                  onClick={() => handleToggleStatus(client._id)}
+                                  className="w-full px-4 py-2 text-left text-sm hover:bg-slate-50 flex items-center gap-2"
+                                >
+                                  <Power className="h-4 w-4" /> 
+                                  {client.isActive ? 'Deactivate' : 'Activate'}
+                                </button>
+                              </>
+                            )}
+                            {hasPermission('clients:delete') && (
+                              <>
+                                <hr className="my-1" />
+                                <button 
+                                  onClick={() => handleDelete(client._id)}
+                                  className="w-full px-4 py-2 text-left text-sm hover:bg-slate-50 flex items-center gap-2 text-red-600"
+                                >
+                                  <Trash2 className="h-4 w-4" /> Delete
+                                </button>
+                              </>
+                            )}
                           </div>
                         )}
                       </td>

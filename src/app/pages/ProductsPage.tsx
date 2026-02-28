@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { Layout } from '../layout/Layout';
 import { productsApi, categoriesApi, suppliersApi, reportsApi } from '@/lib/api';
 import { Package, Plus, Search, X, Loader2, FileDown, MoreHorizontal, Eye, Edit, Trash2, History } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface Product {
   _id: string;
@@ -85,6 +86,7 @@ function getStatusBadge(product: Product): { label: string; className: string } 
 }
 
 export default function ProductsPage() {
+  const { hasPermission } = useAuth();
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
@@ -305,6 +307,8 @@ export default function ProductsPage() {
     return formatDate(latest.toISOString());
   };
 
+const canEditProducts = hasPermission('products:create') || hasPermission('products:update') || hasPermission('products:delete');
+
   return (
     <Layout>
       <div className="p-3 md:p-6">
@@ -338,9 +342,11 @@ export default function ProductsPage() {
                 </button>
               </div>
             </div>
-            <button onClick={() => openModal()} className="flex items-center gap-1 md:gap-2 px-3 md:px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm">
-              <Plus className="h-4 w-4" /> <span className="hidden sm:inline">Add Product</span>
-            </button>
+            {hasPermission('products:create') && (
+              <button onClick={() => openModal()} className="flex items-center gap-1 md:gap-2 px-3 md:px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm">
+                <Plus className="h-4 w-4" /> <span className="hidden sm:inline">Add Product</span>
+              </button>
+            )}
           </div>
         </div>
 
@@ -447,15 +453,17 @@ export default function ProductsPage() {
                                 >
                                   <Eye className="h-4 w-4" /> View Details
                                 </button>
-                                <button 
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    openModal(product);
-                                  }}
-                                  className="w-full text-left px-4 py-2 hover:bg-slate-50 text-sm flex items-center gap-2"
-                                >
-                                  <Edit className="h-4 w-4" /> Edit
-                                </button>
+                                {hasPermission('products:update') && (
+                                  <button 
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      openModal(product);
+                                    }}
+                                    className="w-full text-left px-4 py-2 hover:bg-slate-50 text-sm flex items-center gap-2"
+                                  >
+                                    <Edit className="h-4 w-4" /> Edit
+                                  </button>
+                                )}
                                 <button 
                                   onClick={(e) => {
                                     e.stopPropagation();
@@ -465,16 +473,20 @@ export default function ProductsPage() {
                                 >
                                   <History className="h-4 w-4" /> View History
                                 </button>
-                                <hr className="my-1" />
-                                <button 
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleDelete(product._id);
-                                  }}
-                                  className="w-full text-left px-4 py-2 hover:bg-red-50 text-red-600 text-sm flex items-center gap-2"
-                                >
-                                  <Trash2 className="h-4 w-4" /> Delete
-                                </button>
+                                {hasPermission('products:delete') && (
+                                  <>
+                                    <hr className="my-1" />
+                                    <button 
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleDelete(product._id);
+                                      }}
+                                      className="w-full text-left px-4 py-2 hover:bg-red-50 text-red-600 text-sm flex items-center gap-2"
+                                    >
+                                      <Trash2 className="h-4 w-4" /> Delete
+                                    </button>
+                                  </>
+                                )}
                               </div>
                             )}
                           </div>
@@ -623,12 +635,14 @@ export default function ProductsPage() {
                   </div>
                 )}
                 <div className="flex gap-2 pt-4 border-t">
-                  <button 
-                    onClick={() => { setShowDetailModal(false); openModal(selectedProduct); }}
-                    className="px-4 py-2 bg-indigo-600 text-white rounded-lg flex items-center gap-2"
-                  >
-                    <Edit className="h-4 w-4" /> Edit Product
-                  </button>
+                  {hasPermission('products:update') && (
+                    <button 
+                      onClick={() => { setShowDetailModal(false); openModal(selectedProduct); }}
+                      className="px-4 py-2 bg-indigo-600 text-white rounded-lg flex items-center gap-2"
+                    >
+                      <Edit className="h-4 w-4" /> Edit Product
+                    </button>
+                  )}
                   <button 
                     onClick={() => handleViewHistory(selectedProduct._id)}
                     className="px-4 py-2 border border-slate-300 rounded-lg flex items-center gap-2"

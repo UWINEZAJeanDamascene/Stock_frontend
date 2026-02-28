@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Layout } from '../layout/Layout';
 import { quotationsApi, clientsApi, productsApi } from '@/lib/api';
 import { Quote, Plus, Search, Eye, FileDown, Loader2, Clock, CheckCircle, X, Send, FileText, Check, Trash2 } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface QuotationItem {
   product: { _id: string; name: string; sku: string };
@@ -58,6 +59,7 @@ interface FormItem {
 }
 
 export default function QuotationsPage() {
+  const { hasPermission } = useAuth();
   const [quotations, setQuotations] = useState<Quotation[]>([]);
   const [clients, setClients] = useState<Client[]>([]);
   const [products, setProducts] = useState<Product[]>([]);

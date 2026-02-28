@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Layout } from '../layout/Layout';
 import { categoriesApi } from '@/lib/api';
 import { Tags, Plus, Search, Edit, Trash2, X, Loader2 } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface Category {
   _id: string;
@@ -11,6 +12,7 @@ interface Category {
 }
 
 export default function CategoriesPage() {
+  const { hasPermission } = useAuth();
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -79,6 +81,8 @@ export default function CategoriesPage() {
     cat.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+const canEditCategories = hasPermission('categories:create') || hasPermission('categories:update') || hasPermission('categories:delete');
+
   return (
     <Layout>
       <div className="p-3 md:p-6">
@@ -87,9 +91,11 @@ export default function CategoriesPage() {
             <h1 className="text-xl md:text-2xl font-bold text-slate-800">Categories</h1>
             <p className="text-sm text-slate-500 hidden sm:block">Manage categories</p>
           </div>
-          <button onClick={() => { setEditingCategory(null); setShowModal(true); }} className="flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg w-full sm:w-auto">
-            <Plus className="h-4 w-4" /> Add Category
-          </button>
+          {hasPermission('categories:create') && (
+            <button onClick={() => { setEditingCategory(null); setShowModal(true); }} className="flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg w-full sm:w-auto">
+              <Plus className="h-4 w-4" /> Add Category
+            </button>
+          )}
         </div>
 
         {error && <div className="mb-4 p-3 bg-red-50 text-red-600 rounded-lg">{error}</div>}
@@ -118,8 +124,12 @@ export default function CategoriesPage() {
                     </div>
                   </div>
                   <div className="flex gap-1">
-                    <button onClick={() => { setEditingCategory(category); setShowModal(true); }} className="p-2 text-slate-400 hover:text-indigo-600"><Edit className="h-4 w-4" /></button>
-                    <button onClick={() => handleDelete(category._id)} className="p-2 text-slate-400 hover:text-red-600"><Trash2 className="h-4 w-4" /></button>
+                    {hasPermission('categories:update') && (
+                      <button onClick={() => { setEditingCategory(category); setShowModal(true); }} className="p-2 text-slate-400 hover:text-indigo-600"><Edit className="h-4 w-4" /></button>
+                    )}
+                    {hasPermission('categories:delete') && (
+                      <button onClick={() => handleDelete(category._id)} className="p-2 text-slate-400 hover:text-red-600"><Trash2 className="h-4 w-4" /></button>
+                    )}
                   </div>
                 </div>
                 {category.description && <p className="mt-3 text-sm text-slate-500">{category.description}</p>}

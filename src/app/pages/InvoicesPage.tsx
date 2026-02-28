@@ -3,6 +3,7 @@ import { Layout } from '../layout/Layout';
 import { invoicesApi, clientsApi, productsApi, quotationsApi } from '@/lib/api';
 import { formatCurrency } from '@/lib/utils';
 import { FileText, Plus, Search, Eye, Download, X, Loader2, DollarSign, Clock, CheckCircle, CreditCard, Trash2, Check, AlertCircle, Trash } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface InvoiceItem {
   product: { _id: string; name: string; sku: string };
@@ -128,6 +129,7 @@ const PAYMENT_METHODS = [
 ];
 
 export default function InvoicesPage() {
+  const { hasPermission } = useAuth();
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [clients, setClients] = useState<Client[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
@@ -567,6 +569,8 @@ export default function InvoicesPage() {
   const pendingAmount = invoices.filter(i => i.status === 'confirmed' || i.status === 'partial').reduce((sum, i) => sum + ((i.grandTotal ?? 0) - (i.amountPaid ?? 0)), 0);
   const draftAmount = invoices.filter(i => i.status === 'draft').reduce((sum, i) => sum + (i.grandTotal ?? 0), 0);
 
+const canEditInvoices = hasPermission('invoices:create') || hasPermission('invoices:update') || hasPermission('invoices:delete');
+
   return (
     <Layout>
       <div className="p-3 md:p-6">
@@ -575,9 +579,11 @@ export default function InvoicesPage() {
             <h1 className="text-xl md:text-2xl font-bold text-slate-800">Invoices</h1>
             <p className="text-sm text-slate-500 hidden sm:block">Manage invoices and payments</p>
           </div>
-          <button onClick={openCreateModal} className="flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium w-full sm:w-auto">
-            <Plus className="h-4 w-4" /> Create Invoice
-          </button>
+          {hasPermission('invoices:create') && (
+            <button onClick={openCreateModal} className="flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium w-full sm:w-auto">
+              <Plus className="h-4 w-4" /> Create Invoice
+            </button>
+          )}
         </div>
 
         {error && (
@@ -670,11 +676,13 @@ export default function InvoicesPage() {
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-end gap-2">
                         <button onClick={() => viewInvoice(invoice)} className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg" title="View"><Eye className="h-4 w-4" /></button>
-                        {(invoice.status === 'confirmed' || invoice.status === 'partial') && (
+                        {canEditInvoices && (invoice.status === 'confirmed' || invoice.status === 'partial') && (
                           <button onClick={() => openPaymentModal(invoice)} className="p-2 text-slate-400 hover:text-green-600 hover:bg-green-50 rounded-lg" title="Record Payment"><CreditCard className="h-4 w-4" /></button>
                         )}
                         <button onClick={() => handleDownloadPDF(invoice._id)} disabled={pdfLoading === invoice._id} className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg" title="Download PDF">{pdfLoading === invoice._id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}</button>
-                        <button onClick={() => openDeleteModal(invoice)} className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg" title="Delete"><Trash2 className="h-4 w-4" /></button>
+                        {hasPermission('invoices:delete') && (
+                          <button onClick={() => openDeleteModal(invoice)} className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg" title="Delete"><Trash2 className="h-4 w-4" /></button>
+                        )}
                       </div>
                     </td>
                   </tr>
@@ -779,29 +787,31 @@ export default function InvoicesPage() {
 
                 {/* Action Buttons */}
                 <div className="flex gap-3 pt-4 border-t">
-                  {selectedInvoice.status === 'draft' && (
+                  {hasPermission('invoices:update') && selectedInvoice.status === 'draft' && (
                     <button onClick={handleConfirmInvoice} disabled={confirmLoading} className="px-4 py-2 bg-blue-600 text-white rounded-lg flex items-center gap-2">
                       {confirmLoading && <Loader2 className="h-4 w-4 animate-spin" />}
                       <Check className="h-4 w-4" /> Confirm & Deduct Stock
                     </button>
                   )}
-                  {(selectedInvoice.status === 'confirmed' || selectedInvoice.status === 'partial') && (
+                  {canEditInvoices && (selectedInvoice.status === 'confirmed' || selectedInvoice.status === 'partial') && (
                     <button onClick={() => openPaymentModal(selectedInvoice)} className="px-4 py-2 bg-green-600 text-white rounded-lg flex items-center gap-2">
                       <CreditCard className="h-4 w-4" /> Record Payment
                     </button>
                   )}
-                  {selectedInvoice.status !== 'cancelled' && selectedInvoice.status !== 'paid' && (
+                  {hasPermission('invoices:update') && selectedInvoice.status !== 'cancelled' && selectedInvoice.status !== 'paid' && (
                     <button onClick={() => openCancelModal(selectedInvoice)} className="px-4 py-2 bg-red-600 text-white rounded-lg flex items-center gap-2">
                       <X className="h-4 w-4" /> Cancel Invoice
                     </button>
                   )}
-                  <button onClick={() => openReceiptModal(selectedInvoice)} className="px-4 py-2 bg-slate-600 text-white rounded-lg flex items-center gap-2">
-                    <FileText className="h-4 w-4" /> SDC Info
-                  </button>
+                  {hasPermission('invoices:update') && (
+                    <button onClick={() => openReceiptModal(selectedInvoice)} className="px-4 py-2 bg-slate-600 text-white rounded-lg flex items-center gap-2">
+                      <FileText className="h-4 w-4" /> SDC Info
+                    </button>
+                  )}
                   <button onClick={() => handleDownloadPDF(selectedInvoice._id)} className="px-4 py-2 bg-indigo-600 text-white rounded-lg flex items-center gap-2">
                     <Download className="h-4 w-4" /> Download PDF
                   </button>
-                  {selectedInvoice.status === 'draft' && (
+                  {hasPermission('invoices:delete') && selectedInvoice.status === 'draft' && (
                     <button onClick={() => openDeleteModal(selectedInvoice)} className="px-4 py-2 bg-red-700 text-white rounded-lg flex items-center gap-2">
                       <Trash className="h-4 w-4" /> Delete
                     </button>

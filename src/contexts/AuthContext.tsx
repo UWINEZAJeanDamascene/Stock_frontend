@@ -1,11 +1,12 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { authApi } from '@/lib/api';
+import { UserRole, hasPermission, hasAnyPermission, canEdit, isAdmin, Permission } from '@/lib/permissions';
 
 interface User {
   _id: string;
   name: string;
   email: string;
-  role: string;
+  role: UserRole;
 }
 
 interface AuthContextType {
@@ -16,6 +17,11 @@ interface AuthContextType {
   register: (name: string, email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   isAuthenticated: boolean;
+  // Role checking functions
+  hasPermission: (permission: Permission) => boolean;
+  hasAnyPermission: (permissions: Permission[]) => boolean;
+  canEdit: () => boolean;
+  isAdmin: () => boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -77,6 +83,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         register,
         logout,
         isAuthenticated: !!token && !!user,
+        hasPermission: (permission: Permission) => hasPermission(user?.role, permission),
+        hasAnyPermission: (permissions: Permission[]) => hasAnyPermission(user?.role, permissions),
+        canEdit: () => canEdit(user?.role),
+        isAdmin: () => isAdmin(user?.role),
       }}
     >
       {children}
