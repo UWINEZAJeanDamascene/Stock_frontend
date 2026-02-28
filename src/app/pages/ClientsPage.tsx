@@ -239,21 +239,21 @@ export default function ClientsPage() {
 
   return (
     <Layout>
-      <div className="p-6">
-        <div className="flex items-center justify-between mb-6">
+      <div className="p-3 md:p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 md:mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-slate-800">Clients</h1>
-            <p className="text-slate-500">Manage clients</p>
+            <h1 className="text-xl md:text-2xl font-bold text-slate-800">Clients</h1>
+            <p className="text-sm text-slate-500 hidden sm:block">Manage clients</p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 w-full sm:w-auto">
             <button 
               onClick={handleExport}
-              className="flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50"
+              className="flex items-center justify-center gap-2 px-3 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 flex-1 sm:flex-none text-sm"
             >
-              <FileDown className="h-5 w-5" /> Export
+              <FileDown className="h-4 w-4" /> <span className="hidden sm:inline">Export</span>
             </button>
-            <button onClick={() => openModal()} className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg">
-              <Plus className="h-5 w-5" /> Add Client
+            <button onClick={() => openModal()} className="flex items-center justify-center gap-2 px-3 py-2 bg-indigo-600 text-white rounded-lg flex-1 sm:flex-none text-sm">
+              <Plus className="h-4 w-4" /> <span className="hidden sm:inline">Add Client</span>
             </button>
           </div>
         </div>
@@ -261,24 +261,24 @@ export default function ClientsPage() {
         {error && <div className="mb-4 p-3 bg-red-50 text-red-600 rounded-lg">{error}</div>}
 
         {/* Filters */}
-        <div className="flex flex-wrap items-center gap-4 mb-6">
-          <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-4 md:mb-6">
+          <div className="relative flex-1 max-w-md w-full">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
             <input 
               type="text" 
               placeholder="Search clients..." 
               value={searchTerm} 
               onChange={(e) => setSearchTerm(e.target.value)} 
-              className="w-full pl-10 pr-4 py-2.5 rounded-lg border" 
+              className="w-full pl-9 pr-3 py-2 text-sm rounded-lg border" 
             />
           </div>
           
           <div className="flex items-center gap-2">
-            <Filter className="h-5 w-5 text-slate-400" />
+            <Filter className="h-4 w-4 text-slate-400" />
             <select 
               value={filterType} 
               onChange={(e) => setFilterType(e.target.value)}
-              className="px-3 py-2 border rounded-lg"
+              className="px-2 py-2 border rounded-lg text-sm"
             >
               <option value="">All Types</option>
               <option value="individual">Individual</option>
@@ -288,7 +288,7 @@ export default function ClientsPage() {
             <select 
               value={filterStatus} 
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="px-3 py-2 border rounded-lg"
+              className="px-2 py-2 border rounded-lg text-sm"
             >
               <option value="">All Status</option>
               <option value="active">Active</option>
@@ -298,13 +298,13 @@ export default function ClientsPage() {
         </div>
 
         {loading ? (
-          <div className="flex justify-center py-12"><Loader2 className="h-8 w-8 animate-spin" /></div>
+          <div className="flex justify-center py-8 md:py-12"><Loader2 className="h-6 w-6 md:h-8 md:w-8 animate-spin" /></div>
         ) : filteredClients.length === 0 ? (
-          <div className="text-center py-12 text-slate-500">No clients found</div>
+          <div className="text-center py-8 md:py-12 text-slate-500">No clients found</div>
         ) : (
           <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="w-full">
+              <table className="w-full min-w-[800px]">
                 <thead className="bg-slate-50 border-b">
                   <tr>
                     <th className="text-left p-4 text-sm font-medium text-slate-600">Code</th>
@@ -405,14 +405,14 @@ export default function ClientsPage() {
         )}
 
         {showModal && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
-              <div className="flex items-center justify-between p-6 border-b">
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-3">
+            <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+              <div className="flex items-center justify-between p-4 md:p-6 border-b">
                 <h2 className="text-lg font-semibold">{editingClient ? 'Edit Client' : 'Add Client'}</h2>
                 <button onClick={() => setShowModal(false)} className="p-2 hover:bg-slate-100 rounded"><X className="h-5 w-5" /></button>
               </div>
-              <form onSubmit={handleSubmit} className="p-6 space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+              <form onSubmit={handleSubmit} className="p-4 md:p-6 space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium mb-1">Name *</label>
                     <input type="text" value={formName} onChange={(e) => setFormName(e.target.value)} className="w-full p-2 border rounded-lg" required />
@@ -425,7 +425,7 @@ export default function ClientsPage() {
                     </select>
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium mb-1">Email</label>
                     <input type="email" value={formEmail} onChange={(e) => setFormEmail(e.target.value)} className="w-full p-2 border rounded-lg" />
@@ -439,7 +439,7 @@ export default function ClientsPage() {
                   <label className="block text-sm font-medium mb-1">Address</label>
                   <input type="text" value={formAddress} onChange={(e) => setFormAddress(e.target.value)} className="w-full p-2 border rounded-lg" />
                 </div>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                   <div>
                     <label className="block text-sm font-medium mb-1">City</label>
                     <input type="text" value={formCity} onChange={(e) => setFormCity(e.target.value)} className="w-full p-2 border rounded-lg" />
@@ -448,12 +448,12 @@ export default function ClientsPage() {
                     <label className="block text-sm font-medium mb-1">Country</label>
                     <input type="text" value={formCountry} onChange={(e) => setFormCountry(e.target.value)} className="w-full p-2 border rounded-lg" />
                   </div>
-                  <div>
+                  <div className="sm:col-span-1 col-span-2">
                     <label className="block text-sm font-medium mb-1">Tax ID</label>
                     <input type="text" value={formTaxId} onChange={(e) => setFormTaxId(e.target.value)} className="w-full p-2 border rounded-lg" />
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium mb-1">Payment Terms</label>
                     <select value={formPaymentTerms} onChange={(e) => setFormPaymentTerms(e.target.value)} className="w-full p-2 border rounded-lg">

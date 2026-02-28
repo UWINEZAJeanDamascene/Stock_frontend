@@ -212,7 +212,7 @@ export default function StockPage() {
         ) : (
           <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="w-full whitespace-nowrap">
+              <table className="w-full min-w-[700px] whitespace-nowrap">
               <thead className="bg-slate-50 border-b">
                 <tr>
                   <th className="text-left p-4 text-sm font-medium text-slate-600">Date</th>

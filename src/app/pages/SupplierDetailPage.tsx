@@ -155,21 +155,21 @@ export default function SupplierDetailPage() {
 
   return (
     <Layout>
-      <div className="p-6">
+      <div className="p-3 md:p-6">
         {/* Header */}
-        <div className="flex items-center gap-4 mb-6">
+        <div className="flex items-center gap-2 md:gap-4 mb-4 md:mb-6">
           <button 
             onClick={() => navigate('/suppliers')}
             className="p-2 hover:bg-slate-100 rounded-lg"
           >
-            <ArrowLeft className="h-5 w-5" />
+            <ArrowLeft className="h-4 w-4 md:h-5 md:w-5" />
           </button>
-          <div className="flex-1">
-            <h1 className="text-2xl font-bold text-slate-800">{supplier.name}</h1>
-            <p className="text-slate-500">Supplier Code: {supplier.code || '-'}</p>
+          <div className="flex-1 min-w-0">
+            <h1 className="text-lg md:text-2xl font-bold text-slate-800 truncate">{supplier.name}</h1>
+            <p className="text-sm text-slate-500 hidden md:block">Supplier Code: {supplier.code || '-'}</p>
           </div>
           <div className="flex items-center gap-2">
-            <span className={`px-3 py-1 rounded-full text-sm ${supplier.isActive ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-600'}`}>
+            <span className={`px-2 md:px-3 py-1 rounded-full text-xs md:text-sm ${supplier.isActive ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-600'}`}>
               {supplier.isActive ? 'Active' : 'Inactive'}
             </span>
           </div>
@@ -178,59 +178,59 @@ export default function SupplierDetailPage() {
         {error && <div className="mb-4 p-3 bg-red-50 text-red-600 rounded-lg">{error}</div>}
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-white rounded-xl shadow-sm border p-4">
-            <div className="flex items-center gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-4 md:mb-6">
+          <div className="bg-white rounded-xl shadow-sm border p-3 md:p-4">
+            <div className="flex items-center gap-2 md:gap-3">
               <div className="p-2 bg-indigo-100 rounded-lg">
-                <DollarSign className="h-5 w-5 text-indigo-600" />
+                <DollarSign className="h-4 w-4 md:h-5 md:w-5 text-indigo-600" />
               </div>
               <div>
-                <p className="text-sm text-slate-500">Total Purchases</p>
-                <p className="text-xl font-bold">{formatCurrency(supplier.totalPurchases)}</p>
+                <p className="text-xs md:text-sm text-slate-500">Total Purchases</p>
+                <p className="text-lg md:text-xl font-bold">{formatCurrency(supplier.totalPurchases)}</p>
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-sm border p-4">
-            <div className="flex items-center gap-3">
+          <div className="bg-white rounded-xl shadow-sm border p-3 md:p-4">
+            <div className="flex items-center gap-2 md:gap-3">
               <div className="p-2 bg-green-100 rounded-lg">
-                <Package className="h-5 w-5 text-green-600" />
+                <Package className="h-4 w-4 md:h-5 md:w-5 text-green-600" />
               </div>
               <div>
-                <p className="text-sm text-slate-500">Products Supplied</p>
-                <p className="text-xl font-bold">{supplier.productsSupplied?.length || 0}</p>
+                <p className="text-xs md:text-sm text-slate-500">Products Supplied</p>
+                <p className="text-lg md:text-xl font-bold">{supplier.productsSupplied?.length || 0}</p>
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-sm border p-4">
-            <div className="flex items-center gap-3">
+          <div className="bg-white rounded-xl shadow-sm border p-3 md:p-4">
+            <div className="flex items-center gap-2 md:gap-3">
               <div className="p-2 bg-blue-100 rounded-lg">
-                <Calendar className="h-5 w-5 text-blue-600" />
+                <Calendar className="h-4 w-4 md:h-5 md:w-5 text-blue-600" />
               </div>
               <div>
-                <p className="text-sm text-slate-500">Last Supply</p>
-                <p className="text-xl font-bold">{formatDate(supplier.lastPurchaseDate)}</p>
+                <p className="text-xs md:text-sm text-slate-500">Last Supply</p>
+                <p className="text-lg md:text-xl font-bold">{formatDate(supplier.lastPurchaseDate)}</p>
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-sm border p-4">
-            <div className="flex items-center gap-3">
+          <div className="bg-white rounded-xl shadow-sm border p-3 md:p-4">
+            <div className="flex items-center gap-2 md:gap-3">
               <div className="p-2 bg-purple-100 rounded-lg">
-                <FileText className="h-5 w-5 text-purple-600" />
+                <FileText className="h-4 w-4 md:h-5 md:w-5 text-purple-600" />
               </div>
               <div>
-                <p className="text-sm text-slate-500">Payment Terms</p>
-                <p className="text-xl font-bold">{PAYMENT_TERMS_LABELS[supplier.paymentTerms] || supplier.paymentTerms}</p>
+                <p className="text-xs md:text-sm text-slate-500">Payment Terms</p>
+                <p className="text-lg md:text-xl font-bold">{PAYMENT_TERMS_LABELS[supplier.paymentTerms] || supplier.paymentTerms}</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Tabs */}
-        <div className="border-b mb-6">
-          <div className="flex gap-6">
+        <div className="border-b mb-4 md:mb-6 overflow-x-auto">
+          <div className="flex gap-4 md:gap-6 min-w-max">
             <button
               onClick={() => setActiveTab('profile')}
-              className={`pb-3 px-1 text-sm font-medium border-b-2 transition-colors ${
+              className={`pb-2 md:pb-3 px-1 text-sm font-medium border-b-2 transition-colors ${
                 activeTab === 'profile' 
                   ? 'border-indigo-600 text-indigo-600' 
                   : 'border-transparent text-slate-500 hover:text-slate-700'
@@ -240,7 +240,7 @@ export default function SupplierDetailPage() {
             </button>
             <button
               onClick={() => setActiveTab('products')}
-              className={`pb-3 px-1 text-sm font-medium border-b-2 transition-colors ${
+              className={`pb-2 md:pb-3 px-1 text-sm font-medium border-b-2 transition-colors ${
                 activeTab === 'products' 
                   ? 'border-indigo-600 text-indigo-600' 
                   : 'border-transparent text-slate-500 hover:text-slate-700'
@@ -250,7 +250,7 @@ export default function SupplierDetailPage() {
             </button>
             <button
               onClick={() => setActiveTab('history')}
-              className={`pb-3 px-1 text-sm font-medium border-b-2 transition-colors ${
+              className={`pb-2 md:pb-3 px-1 text-sm font-medium border-b-2 transition-colors ${
                 activeTab === 'history' 
                   ? 'border-indigo-600 text-indigo-600' 
                   : 'border-transparent text-slate-500 hover:text-slate-700'
@@ -264,54 +264,55 @@ export default function SupplierDetailPage() {
         {/* Tab Content */}
         {activeTab === 'profile' && (
           <div className="bg-white rounded-xl shadow-sm border">
-            <div className="p-6 space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="p-4 md:p-6 space-y-4 md:space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div>
-                  <h3 className="text-lg font-semibold mb-4">Contact Information</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-3">
-                      <Mail className="h-5 w-5 text-slate-400" />
-                      <span>{supplier.contact?.email || '-'}</span>
+                  <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4">Contact Information</h3>
+                  <div className="space-y-2 md:space-y-3">
+                    <div className="flex items-center gap-2 md:gap-3">
+                      <Mail className="h-4 w-4 md:h-5 md:w-5 text-slate-400 flex-shrink-0" />
+                      <span className="text-sm truncate">{supplier.contact?.email || '-'}</span>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <Phone className="h-5 w-5 text-slate-400" />
+                    <div className="flex items-center gap-2 md:gap-3">
+                      <Phone className="h-4 w-4 md:h-5 md:w-5 text-slate-400 flex-shrink-0" />
                       <span>{supplier.contact?.phone || '-'}</span>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <MapPin className="h-5 w-5 text-slate-400" />
-                      <span>
+                    <div className="flex items-center gap-2 md:gap-3">
+                      <MapPin className="h-4 w-4 md:h-5 md:w-5 text-slate-400 flex-shrink-0" />
+                      <span className="text-sm">
                         {[supplier.contact?.address, supplier.contact?.city, supplier.contact?.country].filter(Boolean).join(', ') || '-'}
                       </span>
                     </div>
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold mb-4">Business Details</h3>
-                  <div className="space-y-3">
+                  <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4">Business Details</h3>
+                  <div className="space-y-2 md:space-y-3">
                     <div>
                       <p className="text-sm text-slate-500">Tax ID</p>
-                      <p>{supplier.taxId || '-'}</p>
+                      <p className="text-sm md:text-base">{supplier.taxId || '-'}</p>
                     </div>
                     <div>
                       <p className="text-sm text-slate-500">Payment Terms</p>
-                      <p>{PAYMENT_TERMS_LABELS[supplier.paymentTerms] || supplier.paymentTerms}</p>
+                      <p className="text-sm md:text-base">{PAYMENT_TERMS_LABELS[supplier.paymentTerms] || supplier.paymentTerms}</p>
                     </div>
                     {supplier.notes && (
                       <div>
                         <p className="text-sm text-slate-500">Notes</p>
-                        <p>{supplier.notes}</p>
+                        <p className="text-sm md:text-base">{supplier.notes}</p>
                       </div>
                     )}
                   </div>
                 </div>
               </div>
-              <div className="pt-4 border-t flex gap-3">
+              <div className="pt-3 md:pt-4 border-t flex gap-2 md:gap-3">
                 <button 
                   onClick={handleToggleStatus}
-                  className="flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-50"
+                  className="flex items-center gap-1 md:gap-2 px-3 md:px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-50 text-sm"
                 >
-                  <Power className="h-4 w-4" />
-                  {supplier.isActive ? 'Deactivate' : 'Activate'} Supplier
+                  <Power className="h-3 w-3 md:h-4 md:w-4" />
+                  <span className="hidden sm:inline">{supplier.isActive ? 'Deactivate' : 'Activate'} Supplier</span>
+                  <span className="sm:hidden">{supplier.isActive ? 'Deactivate' : 'Activate'}</span>
                 </button>
               </div>
             </div>
@@ -345,21 +346,21 @@ export default function SupplierDetailPage() {
         )}
 
         {activeTab === 'history' && (
-          <div className="space-y-4">
+          <div className="space-y-3 md:space-y-4">
             {/* Summary */}
             {historySummary && (
-              <div className="grid grid-cols-3 gap-4">
-                <div className="bg-white rounded-xl shadow-sm border p-4">
-                  <p className="text-sm text-slate-500">Total Orders</p>
-                  <p className="text-2xl font-bold">{historySummary.totalPurchases}</p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
+                <div className="bg-white rounded-xl shadow-sm border p-3 md:p-4">
+                  <p className="text-xs md:text-sm text-slate-500">Total Orders</p>
+                  <p className="text-xl md:text-2xl font-bold">{historySummary.totalPurchases}</p>
                 </div>
-                <div className="bg-white rounded-xl shadow-sm border p-4">
-                  <p className="text-sm text-slate-500">Total Quantity</p>
-                  <p className="text-2xl font-bold">{historySummary.totalQuantity.toLocaleString()}</p>
+                <div className="bg-white rounded-xl shadow-sm border p-3 md:p-4">
+                  <p className="text-xs md:text-sm text-slate-500">Total Quantity</p>
+                  <p className="text-xl md:text-2xl font-bold">{historySummary.totalQuantity.toLocaleString()}</p>
                 </div>
-                <div className="bg-white rounded-xl shadow-sm border p-4">
-                  <p className="text-sm text-slate-500">Total Value</p>
-                  <p className="text-2xl font-bold">{formatCurrency(historySummary.totalAmount)}</p>
+                <div className="bg-white rounded-xl shadow-sm border p-3 md:p-4">
+                  <p className="text-xs md:text-sm text-slate-500">Total Value</p>
+                  <p className="text-xl md:text-2xl font-bold">{formatCurrency(historySummary.totalAmount)}</p>
                 </div>
               </div>
             )}
@@ -367,37 +368,39 @@ export default function SupplierDetailPage() {
             {/* History Table */}
             <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
               {historyLoading ? (
-                <div className="flex justify-center py-12"><Loader2 className="h-8 w-8 animate-spin" /></div>
+                <div className="flex justify-center py-8 md:py-12"><Loader2 className="h-6 w-6 md:h-8 md:w-8 animate-spin" /></div>
               ) : purchaseHistory.length > 0 ? (
-                <table className="w-full">
-                  <thead className="bg-slate-50 border-b">
-                    <tr>
-                      <th className="text-left p-4 text-sm font-medium text-slate-600">Date</th>
-                      <th className="text-left p-4 text-sm font-medium text-slate-600">Product</th>
-                      <th className="text-right p-4 text-sm font-medium text-slate-600">Quantity</th>
-                      <th className="text-right p-4 text-sm font-medium text-slate-600">Unit Cost</th>
-                      <th className="text-right p-4 text-sm font-medium text-slate-600">Total</th>
-                      <th className="text-left p-4 text-sm font-medium text-slate-600">Batch #</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y">
-                    {purchaseHistory.map((purchase) => (
-                      <tr key={purchase._id} className="hover:bg-slate-50">
-                        <td className="p-4 text-sm">{formatDate(purchase.movementDate)}</td>
-                        <td className="p-4 text-sm">
-                          <p className="font-medium">{purchase.product?.name || '-'}</p>
-                          <p className="text-slate-500 text-xs">{purchase.product?.sku}</p>
-                        </td>
-                        <td className="p-4 text-sm text-right">{purchase.quantity} {purchase.product?.unit}</td>
-                        <td className="p-4 text-sm text-right">{formatCurrency(purchase.unitCost)}</td>
-                        <td className="p-4 text-sm text-right font-medium">{formatCurrency(purchase.totalCost)}</td>
-                        <td className="p-4 text-sm">{purchase.batchNumber || '-'}</td>
+                <div className="overflow-x-auto">
+                  <table className="w-full min-w-[600px]">
+                    <thead className="bg-slate-50 border-b">
+                      <tr>
+                        <th className="text-left p-3 md:p-4 text-xs md:text-sm font-medium text-slate-600">Date</th>
+                        <th className="text-left p-3 md:p-4 text-xs md:text-sm font-medium text-slate-600">Product</th>
+                        <th className="text-right p-3 md:p-4 text-xs md:text-sm font-medium text-slate-600">Quantity</th>
+                        <th className="text-right p-3 md:p-4 text-xs md:text-sm font-medium text-slate-600">Unit Cost</th>
+                        <th className="text-right p-3 md:p-4 text-xs md:text-sm font-medium text-slate-600">Total</th>
+                        <th className="text-left p-3 md:p-4 text-xs md:text-sm font-medium text-slate-600">Batch #</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody className="divide-y">
+                      {purchaseHistory.map((purchase) => (
+                        <tr key={purchase._id} className="hover:bg-slate-50">
+                          <td className="p-3 md:p-4 text-xs md:text-sm">{formatDate(purchase.movementDate)}</td>
+                          <td className="p-3 md:p-4 text-xs md:text-sm">
+                            <p className="font-medium">{purchase.product?.name || '-'}</p>
+                            <p className="text-slate-500 text-xs">{purchase.product?.sku}</p>
+                          </td>
+                          <td className="p-3 md:p-4 text-xs md:text-sm text-right">{purchase.quantity} {purchase.product?.unit}</td>
+                          <td className="p-3 md:p-4 text-xs md:text-sm text-right">{formatCurrency(purchase.unitCost)}</td>
+                          <td className="p-3 md:p-4 text-xs md:text-sm text-right font-medium">{formatCurrency(purchase.totalCost)}</td>
+                          <td className="p-3 md:p-4 text-xs md:text-sm">{purchase.batchNumber || '-'}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               ) : (
-                <div className="p-8 text-center text-slate-500">
+                <div className="p-6 md:p-8 text-center text-slate-500">
                   No purchase history found for this supplier
                 </div>
               )}

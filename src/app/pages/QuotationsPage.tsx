@@ -388,14 +388,14 @@ export default function QuotationsPage() {
 
   return (
     <Layout>
-      <div className="p-6">
-        <div className="flex items-center justify-between mb-6">
+      <div className="p-3 md:p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 md:mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-slate-800">Quotations</h1>
-            <p className="text-slate-500">Manage quotes and proposals</p>
+            <h1 className="text-xl md:text-2xl font-bold text-slate-800">Quotations</h1>
+            <p className="text-sm text-slate-500 hidden sm:block">Manage quotes and proposals</p>
           </div>
-          <button onClick={openCreateModal} className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium">
-            <Plus className="h-5 w-5" /> Create Quotation
+          <button onClick={openCreateModal} className="flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium w-full sm:w-auto">
+            <Plus className="h-4 w-4" /> Create Quotation
           </button>
         </div>
 
@@ -405,63 +405,63 @@ export default function QuotationsPage() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-4 md:mb-6">
+          <div className="bg-white rounded-xl p-4 md:p-6 shadow-sm border border-slate-200">
             <div className="flex items-center gap-3">
-              <div className="p-3 rounded-lg bg-blue-100"><Quote className="h-5 w-5 text-blue-600" /></div>
+              <div className="p-2 md:p-3 rounded-lg bg-blue-100"><Quote className="h-4 w-4 md:h-5 md:w-5 text-blue-600" /></div>
               <div>
-                <p className="text-sm text-slate-500">Total Quotes</p>
-                <p className="text-2xl font-bold text-slate-800">{quotations.length}</p>
+                <p className="text-xs md:text-sm text-slate-500">Total Quotes</p>
+                <p className="text-lg md:text-2xl font-bold text-slate-800">{quotations.length}</p>
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+          <div className="bg-white rounded-xl p-4 md:p-6 shadow-sm border border-slate-200">
             <div className="flex items-center gap-3">
-              <div className="p-3 rounded-lg bg-yellow-100"><Clock className="h-5 w-5 text-yellow-600" /></div>
+              <div className="p-2 md:p-3 rounded-lg bg-yellow-100"><Clock className="h-4 w-4 md:h-5 md:w-5 text-yellow-600" /></div>
               <div>
-                <p className="text-sm text-slate-500">Pending</p>
-                <p className="text-2xl font-bold text-slate-800">{pendingCount}</p>
+                <p className="text-xs md:text-sm text-slate-500">Pending</p>
+                <p className="text-lg md:text-2xl font-bold text-slate-800">{pendingCount}</p>
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+          <div className="bg-white rounded-xl p-4 md:p-6 shadow-sm border border-slate-200">
             <div className="flex items-center gap-3">
-              <div className="p-3 rounded-lg bg-green-100"><CheckCircle className="h-5 w-5 text-green-600" /></div>
+              <div className="p-2 md:p-3 rounded-lg bg-green-100"><CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-green-600" /></div>
               <div>
-                <p className="text-sm text-slate-500">Accepted</p>
-                <p className="text-2xl font-bold text-green-600">{acceptedCount}</p>
+                <p className="text-xs md:text-sm text-slate-500">Accepted</p>
+                <p className="text-lg md:text-2xl font-bold text-green-600">{acceptedCount}</p>
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+          <div className="bg-white rounded-xl p-4 md:p-6 shadow-sm border border-slate-200">
             <div className="flex items-center gap-3">
-              <div className="p-3 rounded-lg bg-slate-100"><Quote className="h-5 w-5 text-slate-600" /></div>
+              <div className="p-2 md:p-3 rounded-lg bg-slate-100"><Quote className="h-4 w-4 md:h-5 md:w-5 text-slate-600" /></div>
               <div>
-                <p className="text-sm text-slate-500">Total Value</p>
-                <p className="text-2xl font-bold text-slate-800">FRW {totalValue.toLocaleString()}</p>
+                <p className="text-xs md:text-sm text-slate-500">Total Value</p>
+                <p className="text-lg md:text-2xl font-bold text-slate-800">FRW {totalValue.toLocaleString()}</p>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="relative mb-6">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
-          <input type="text" placeholder="Search quotations..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="w-full max-w-md pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none" />
+        <div className="relative mb-4 md:mb-6">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+          <input type="text" placeholder="Search quotations..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="w-full max-w-sm pl-9 pr-3 py-2 rounded-lg border border-slate-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none text-sm" />
         </div>
 
         {loading ? (
-          <div className="flex items-center justify-center h-64">
-            <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
+          <div className="flex items-center justify-center h-48 md:h-64">
+            <Loader2 className="h-6 w-6 md:h-8 md:w-8 animate-spin text-indigo-600" />
           </div>
         ) : filteredQuotations.length === 0 ? (
-          <div className="bg-white rounded-xl p-12 shadow-sm border border-slate-200 text-center">
-            <Quote className="h-12 w-12 text-slate-300 mx-auto mb-4" />
+          <div className="bg-white rounded-xl p-8 md:p-12 shadow-sm border border-slate-200 text-center">
+            <Quote className="h-8 w-8 md:h-12 md:w-12 text-slate-300 mx-auto mb-4" />
             <p className="text-slate-500">No quotations found</p>
           </div>
         ) : (
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="w-full whitespace-nowrap">
+              <table className="w-full min-w-[800px] whitespace-nowrap">
               <thead className="bg-slate-50 border-b border-slate-200">
                 <tr>
                   <th className="text-left px-6 py-3 text-xs font-semibold text-slate-600 uppercase">Quote #</th>

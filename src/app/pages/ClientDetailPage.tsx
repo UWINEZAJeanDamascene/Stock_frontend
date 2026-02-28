@@ -231,21 +231,21 @@ export default function ClientDetailPage() {
 
   return (
     <Layout>
-      <div className="p-6">
+      <div className="p-3 md:p-6">
         {/* Header */}
-        <div className="flex items-center gap-4 mb-6">
+        <div className="flex items-center gap-2 md:gap-4 mb-4 md:mb-6">
           <button 
             onClick={() => navigate('/clients')}
             className="p-2 hover:bg-slate-100 rounded-lg"
           >
-            <ArrowLeft className="h-5 w-5" />
+            <ArrowLeft className="h-4 w-4 md:h-5 md:w-5" />
           </button>
-          <div className="flex-1">
-            <h1 className="text-2xl font-bold text-slate-800">{client.name}</h1>
-            <p className="text-slate-500">Client Code: {client.code || '-'}</p>
+          <div className="flex-1 min-w-0">
+            <h1 className="text-lg md:text-2xl font-bold text-slate-800 truncate">{client.name}</h1>
+            <p className="text-sm text-slate-500 hidden md:block">Client Code: {client.code || '-'}</p>
           </div>
           <div className="flex items-center gap-2">
-            <span className={`px-3 py-1 rounded-full text-sm ${client.isActive ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-600'}`}>
+            <span className={`px-2 md:px-3 py-1 rounded-full text-xs md:text-sm ${client.isActive ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-600'}`}>
               {client.isActive ? 'Active' : 'Inactive'}
             </span>
           </div>
@@ -254,59 +254,59 @@ export default function ClientDetailPage() {
         {error && <div className="mb-4 p-3 bg-red-50 text-red-600 rounded-lg">{error}</div>}
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-white rounded-xl shadow-sm border p-4">
-            <div className="flex items-center gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-4 md:mb-6">
+          <div className="bg-white rounded-xl shadow-sm border p-3 md:p-4">
+            <div className="flex items-center gap-2 md:gap-3">
               <div className="p-2 bg-indigo-100 rounded-lg">
-                <DollarSign className="h-5 w-5 text-indigo-600" />
+                <DollarSign className="h-4 w-4 md:h-5 md:w-5 text-indigo-600" />
               </div>
               <div>
-                <p className="text-sm text-slate-500">Total Purchases</p>
-                <p className="text-xl font-bold">{formatCurrency(client.totalPurchases)}</p>
+                <p className="text-xs md:text-sm text-slate-500">Total Purchases</p>
+                <p className="text-lg md:text-xl font-bold">{formatCurrency(client.totalPurchases)}</p>
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-sm border p-4">
-            <div className="flex items-center gap-3">
+          <div className="bg-white rounded-xl shadow-sm border p-3 md:p-4">
+            <div className="flex items-center gap-2 md:gap-3">
               <div className="p-2 bg-amber-100 rounded-lg">
-                <Receipt className="h-5 w-5 text-amber-600" />
+                <Receipt className="h-4 w-4 md:h-5 md:w-5 text-amber-600" />
               </div>
               <div>
-                <p className="text-sm text-slate-500">Outstanding Balance</p>
-                <p className="text-xl font-bold">{formatCurrency(client.outstandingBalance)}</p>
+                <p className="text-xs md:text-sm text-slate-500">Outstanding Balance</p>
+                <p className="text-lg md:text-xl font-bold">{formatCurrency(client.outstandingBalance)}</p>
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-sm border p-4">
-            <div className="flex items-center gap-3">
+          <div className="bg-white rounded-xl shadow-sm border p-3 md:p-4">
+            <div className="flex items-center gap-2 md:gap-3">
               <div className="p-2 bg-blue-100 rounded-lg">
-                <Calendar className="h-5 w-5 text-blue-600" />
+                <Calendar className="h-4 w-4 md:h-5 md:w-5 text-blue-600" />
               </div>
               <div>
-                <p className="text-sm text-slate-500">Last Purchase</p>
-                <p className="text-xl font-bold">{formatDate(client.lastPurchaseDate)}</p>
+                <p className="text-xs md:text-sm text-slate-500">Last Purchase</p>
+                <p className="text-lg md:text-xl font-bold">{formatDate(client.lastPurchaseDate)}</p>
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-sm border p-4">
-            <div className="flex items-center gap-3">
+          <div className="bg-white rounded-xl shadow-sm border p-3 md:p-4">
+            <div className="flex items-center gap-2 md:gap-3">
               <div className="p-2 bg-purple-100 rounded-lg">
-                <FileText className="h-5 w-5 text-purple-600" />
+                <FileText className="h-4 w-4 md:h-5 md:w-5 text-purple-600" />
               </div>
               <div>
-                <p className="text-sm text-slate-500">Credit Limit</p>
-                <p className="text-xl font-bold">{formatCurrency(client.creditLimit)}</p>
+                <p className="text-xs md:text-sm text-slate-500">Credit Limit</p>
+                <p className="text-lg md:text-xl font-bold">{formatCurrency(client.creditLimit)}</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Tabs */}
-        <div className="border-b mb-6">
-          <div className="flex gap-6">
+        <div className="border-b mb-4 md:mb-6 overflow-x-auto">
+          <div className="flex gap-4 md:gap-6 min-w-max">
             <button
               onClick={() => setActiveTab('profile')}
-              className={`pb-3 px-1 text-sm font-medium border-b-2 transition-colors ${
+              className={`pb-2 md:pb-3 px-1 text-sm font-medium border-b-2 transition-colors ${
                 activeTab === 'profile' 
                   ? 'border-indigo-600 text-indigo-600' 
                   : 'border-transparent text-slate-500 hover:text-slate-700'
@@ -316,7 +316,7 @@ export default function ClientDetailPage() {
             </button>
             <button
               onClick={() => setActiveTab('invoices')}
-              className={`pb-3 px-1 text-sm font-medium border-b-2 transition-colors ${
+              className={`pb-2 md:pb-3 px-1 text-sm font-medium border-b-2 transition-colors ${
                 activeTab === 'invoices' 
                   ? 'border-indigo-600 text-indigo-600' 
                   : 'border-transparent text-slate-500 hover:text-slate-700'
@@ -326,7 +326,7 @@ export default function ClientDetailPage() {
             </button>
             <button
               onClick={() => setActiveTab('quotations')}
-              className={`pb-3 px-1 text-sm font-medium border-b-2 transition-colors ${
+              className={`pb-2 md:pb-3 px-1 text-sm font-medium border-b-2 transition-colors ${
                 activeTab === 'quotations' 
                   ? 'border-indigo-600 text-indigo-600' 
                   : 'border-transparent text-slate-500 hover:text-slate-700'
@@ -336,7 +336,7 @@ export default function ClientDetailPage() {
             </button>
             <button
               onClick={() => setActiveTab('outstanding')}
-              className={`pb-3 px-1 text-sm font-medium border-b-2 transition-colors ${
+              className={`pb-2 md:pb-3 px-1 text-sm font-medium border-b-2 transition-colors ${
                 activeTab === 'outstanding' 
                   ? 'border-indigo-600 text-indigo-600' 
                   : 'border-transparent text-slate-500 hover:text-slate-700'
@@ -350,58 +350,59 @@ export default function ClientDetailPage() {
         {/* Tab Content */}
         {activeTab === 'profile' && (
           <div className="bg-white rounded-xl shadow-sm border">
-            <div className="p-6 space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="p-4 md:p-6 space-y-4 md:space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div>
-                  <h3 className="text-lg font-semibold mb-4">Contact Information</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-3">
-                      <Mail className="h-5 w-5 text-slate-400" />
-                      <span>{client.contact?.email || '-'}</span>
+                  <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4">Contact Information</h3>
+                  <div className="space-y-2 md:space-y-3">
+                    <div className="flex items-center gap-2 md:gap-3">
+                      <Mail className="h-4 w-4 md:h-5 md:w-5 text-slate-400 flex-shrink-0" />
+                      <span className="text-sm truncate">{client.contact?.email || '-'}</span>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <Phone className="h-5 w-5 text-slate-400" />
+                    <div className="flex items-center gap-2 md:gap-3">
+                      <Phone className="h-4 w-4 md:h-5 md:w-5 text-slate-400 flex-shrink-0" />
                       <span>{client.contact?.phone || '-'}</span>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <MapPin className="h-5 w-5 text-slate-400" />
-                      <span>
+                    <div className="flex items-center gap-2 md:gap-3">
+                      <MapPin className="h-4 w-4 md:h-5 md:w-5 text-slate-400 flex-shrink-0" />
+                      <span className="text-sm">
                         {[client.contact?.address, client.contact?.city, client.contact?.country].filter(Boolean).join(', ') || '-'}
                       </span>
                     </div>
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold mb-4">Business Details</h3>
-                  <div className="space-y-3">
+                  <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4">Business Details</h3>
+                  <div className="space-y-2 md:space-y-3">
                     <div>
                       <p className="text-sm text-slate-500">Type</p>
-                      <p className="capitalize">{client.type || 'individual'}</p>
+                      <p className="capitalize text-sm md:text-base">{client.type || 'individual'}</p>
                     </div>
                     <div>
                       <p className="text-sm text-slate-500">Tax ID</p>
-                      <p>{client.taxId || '-'}</p>
+                      <p className="text-sm md:text-base">{client.taxId || '-'}</p>
                     </div>
                     <div>
                       <p className="text-sm text-slate-500">Payment Terms</p>
-                      <p>{PAYMENT_TERMS_LABELS[client.paymentTerms] || client.paymentTerms}</p>
+                      <p className="text-sm md:text-base">{PAYMENT_TERMS_LABELS[client.paymentTerms] || client.paymentTerms}</p>
                     </div>
                     {client.notes && (
                       <div>
                         <p className="text-sm text-slate-500">Notes</p>
-                        <p>{client.notes}</p>
+                        <p className="text-sm md:text-base">{client.notes}</p>
                       </div>
                     )}
                   </div>
                 </div>
               </div>
-              <div className="pt-4 border-t flex gap-3">
+              <div className="pt-3 md:pt-4 border-t flex gap-2 md:gap-3">
                 <button 
                   onClick={handleToggleStatus}
-                  className="flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-50"
+                  className="flex items-center gap-1 md:gap-2 px-3 md:px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-50 text-sm"
                 >
-                  <Power className="h-4 w-4" />
-                  {client.isActive ? 'Deactivate' : 'Activate'} Client
+                  <Power className="h-3 w-3 md:h-4 md:w-4" />
+                  <span className="hidden sm:inline">{client.isActive ? 'Deactivate' : 'Activate'} Client</span>
+                  <span className="sm:hidden">{client.isActive ? 'Deactivate' : 'Activate'}</span>
                 </button>
               </div>
             </div>
@@ -409,25 +410,25 @@ export default function ClientDetailPage() {
         )}
 
         {activeTab === 'invoices' && (
-          <div className="space-y-4">
+          <div className="space-y-3 md:space-y-4">
             {/* Summary */}
             {invoiceSummary && (
-              <div className="grid grid-cols-4 gap-4">
-                <div className="bg-white rounded-xl shadow-sm border p-4">
-                  <p className="text-sm text-slate-500">Total Invoices</p>
-                  <p className="text-2xl font-bold">{invoiceSummary.totalInvoices}</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+                <div className="bg-white rounded-xl shadow-sm border p-3 md:p-4">
+                  <p className="text-xs md:text-sm text-slate-500">Total Invoices</p>
+                  <p className="text-xl md:text-2xl font-bold">{invoiceSummary.totalInvoices}</p>
                 </div>
-                <div className="bg-white rounded-xl shadow-sm border p-4">
-                  <p className="text-sm text-slate-500">Total Amount</p>
-                  <p className="text-2xl font-bold">{formatCurrency(invoiceSummary.totalAmount)}</p>
+                <div className="bg-white rounded-xl shadow-sm border p-3 md:p-4">
+                  <p className="text-xs md:text-sm text-slate-500">Total Amount</p>
+                  <p className="text-xl md:text-2xl font-bold">{formatCurrency(invoiceSummary.totalAmount)}</p>
                 </div>
-                <div className="bg-white rounded-xl shadow-sm border p-4">
-                  <p className="text-sm text-slate-500">Total Paid</p>
-                  <p className="text-2xl font-bold">{formatCurrency(invoiceSummary.totalPaid)}</p>
+                <div className="bg-white rounded-xl shadow-sm border p-3 md:p-4">
+                  <p className="text-xs md:text-sm text-slate-500">Total Paid</p>
+                  <p className="text-xl md:text-2xl font-bold">{formatCurrency(invoiceSummary.totalPaid)}</p>
                 </div>
-                <div className="bg-white rounded-xl shadow-sm border p-4">
-                  <p className="text-sm text-slate-500">Outstanding</p>
-                  <p className="text-2xl font-bold">{formatCurrency(invoiceSummary.totalOutstanding)}</p>
+                <div className="bg-white rounded-xl shadow-sm border p-3 md:p-4">
+                  <p className="text-xs md:text-sm text-slate-500">Outstanding</p>
+                  <p className="text-xl md:text-2xl font-bold">{formatCurrency(invoiceSummary.totalOutstanding)}</p>
                 </div>
               </div>
             )}
@@ -435,9 +436,10 @@ export default function ClientDetailPage() {
             {/* Invoices Table */}
             <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
               {invoicesLoading ? (
-                <div className="flex justify-center py-12"><Loader2 className="h-8 w-8 animate-spin" /></div>
+                <div className="flex justify-center py-8 md:py-12"><Loader2 className="h-6 w-6 md:h-8 md:w-8 animate-spin" /></div>
               ) : invoices.length > 0 ? (
-                <table className="w-full">
+                <div className="overflow-x-auto">
+                  <table className="w-full min-w-[600px]">
                   <thead className="bg-slate-50 border-b">
                     <tr>
                       <th className="text-left p-4 text-sm font-medium text-slate-600">Invoice #</th>
@@ -467,8 +469,9 @@ export default function ClientDetailPage() {
                     ))}
                   </tbody>
                 </table>
+              </div>
               ) : (
-                <div className="p-8 text-center text-slate-500">
+                <div className="p-6 md:p-8 text-center text-slate-500">
                   No invoices found for this client
                 </div>
               )}
@@ -477,13 +480,14 @@ export default function ClientDetailPage() {
         )}
 
         {activeTab === 'quotations' && (
-          <div className="space-y-4">
+          <div className="space-y-3 md:space-y-4">
             {/* Quotations Table */}
             <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
               {quotationsLoading ? (
-                <div className="flex justify-center py-12"><Loader2 className="h-8 w-8 animate-spin" /></div>
+                <div className="flex justify-center py-8 md:py-12"><Loader2 className="h-6 w-6 md:h-8 md:w-8 animate-spin" /></div>
               ) : quotations.length > 0 ? (
-                <table className="w-full">
+                <div className="overflow-x-auto">
+                  <table className="w-full min-w-[500px]">
                   <thead className="bg-slate-50 border-b">
                     <tr>
                       <th className="text-left p-4 text-sm font-medium text-slate-600">Quotation #</th>
@@ -509,8 +513,9 @@ export default function ClientDetailPage() {
                     ))}
                   </tbody>
                 </table>
+              </div>
               ) : (
-                <div className="p-8 text-center text-slate-500">
+                <div className="p-6 md:p-8 text-center text-slate-500">
                   No quotations found for this client
                 </div>
               )}
@@ -519,13 +524,14 @@ export default function ClientDetailPage() {
         )}
 
         {activeTab === 'outstanding' && (
-          <div className="space-y-4">
+          <div className="space-y-3 md:space-y-4">
             {/* Outstanding Invoices Table */}
             <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
               {invoicesLoading ? (
-                <div className="flex justify-center py-12"><Loader2 className="h-8 w-8 animate-spin" /></div>
+                <div className="flex justify-center py-8 md:py-12"><Loader2 className="h-6 w-6 md:h-8 md:w-8 animate-spin" /></div>
               ) : outstandingInvoices.length > 0 ? (
-                <table className="w-full">
+                <div className="overflow-x-auto">
+                  <table className="w-full min-w-[600px]">
                   <thead className="bg-slate-50 border-b">
                     <tr>
                       <th className="text-left p-4 text-sm font-medium text-slate-600">Invoice #</th>
@@ -555,8 +561,9 @@ export default function ClientDetailPage() {
                     ))}
                   </tbody>
                 </table>
+                </div>
               ) : (
-                <div className="p-8 text-center text-slate-500">
+                <div className="p-6 md:p-8 text-center text-slate-500">
                   No outstanding invoices for this client
                 </div>
               )}
