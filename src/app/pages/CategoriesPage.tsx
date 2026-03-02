@@ -124,12 +124,8 @@ const canEditCategories = hasPermission('categories:create') || hasPermission('c
                     </div>
                   </div>
                   <div className="flex gap-1">
-                    {hasPermission('categories:update') && (
-                      <button onClick={() => { setEditingCategory(category); setShowModal(true); }} className="p-2 text-slate-400 hover:text-indigo-600"><Edit className="h-4 w-4" /></button>
-                    )}
-                    {hasPermission('categories:delete') && (
-                      <button onClick={() => handleDelete(category._id)} className="p-2 text-slate-400 hover:text-red-600"><Trash2 className="h-4 w-4" /></button>
-                    )}
+                    <button onClick={() => { setEditingCategory(category); setShowModal(true); }} className="p-2 text-slate-400 hover:text-indigo-600"><Edit className="h-4 w-4" /></button>
+                    <button onClick={() => handleDelete(category._id)} className="p-2 text-slate-400 hover:text-red-600"><Trash2 className="h-4 w-4" /></button>
                   </div>
                 </div>
                 {category.description && <p className="mt-3 text-sm text-slate-500">{category.description}</p>}
@@ -143,7 +139,7 @@ const canEditCategories = hasPermission('categories:create') || hasPermission('c
             <div className="bg-white rounded-xl shadow-xl w-full max-w-md">
               <div className="flex items-center justify-between p-4 md:p-6 border-b">
                 <h2 className="text-lg font-semibold">{editingCategory ? 'Edit' : 'Add'} Category</h2>
-                <button onClick={() => { setShowModal(false); setEditingCategory(null); }} className="p-2 hover:bg-slate-100 rounded"><X className="h-5 w-5" /></button>
+                <button onClick={() => { setShowModal(false); setEditingCategory(null); }} className="p-2 hover:bg-slate-100 rounded" title="Close"><X className="h-5 w-5" /></button>
               </div>
               <form onSubmit={handleSubmit} className="p-4 md:p-6 space-y-4">
                 <div>

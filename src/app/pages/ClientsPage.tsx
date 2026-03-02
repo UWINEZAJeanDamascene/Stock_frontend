@@ -358,9 +358,10 @@ const canEditClients = hasPermission('clients:create') || hasPermission('clients
                         </span>
                       </td>
                       <td className="p-4 text-center relative" onClick={(e) => e.stopPropagation()}>
-                        <button 
+                        <button
                           onClick={(e) => toggleActionsMenu(e, client._id)}
                           className="p-2 hover:bg-slate-100 rounded-lg"
+                          title="More Actions"
                         >
                           <MoreHorizontal className="h-5 w-5 text-slate-500" />
                         </button>
@@ -423,7 +424,7 @@ const canEditClients = hasPermission('clients:create') || hasPermission('clients
             <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between p-4 md:p-6 border-b">
                 <h2 className="text-lg font-semibold">{editingClient ? 'Edit Client' : 'Add Client'}</h2>
-                <button onClick={() => setShowModal(false)} className="p-2 hover:bg-slate-100 rounded"><X className="h-5 w-5" /></button>
+                <button onClick={() => setShowModal(false)} className="p-2 hover:bg-slate-100 rounded" title="Close"><X className="h-5 w-5" /></button>
               </div>
               <form onSubmit={handleSubmit} className="p-4 md:p-6 space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

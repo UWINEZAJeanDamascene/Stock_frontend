@@ -514,7 +514,7 @@ export default function QuotationsPage() {
             <div className="bg-white rounded-xl shadow-xl w-full max-w-3xl mx-4 max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between p-6 border-b">
                 <h2 className="text-lg font-semibold">Quotation Details</h2>
-                <button onClick={() => { setShowViewModal(false); setSelectedQuotation(null); }} className="p-2 hover:bg-slate-100 rounded"><X className="h-5 w-5" /></button>
+                <button onClick={() => { setShowViewModal(false); setSelectedQuotation(null); }} className="p-2 hover:bg-slate-100 rounded" title="Close"><X className="h-5 w-5" /></button>
               </div>
               <div className="p-6">
                 <div className="grid grid-cols-2 gap-6 mb-6">
@@ -605,7 +605,7 @@ export default function QuotationsPage() {
             <div className="bg-white rounded-xl shadow-xl w-full max-w-4xl mx-4 max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between p-6 border-b">
                 <h2 className="text-lg font-semibold">Create Quotation</h2>
-                <button onClick={() => setShowModal(false)} className="p-2 hover:bg-slate-100 rounded"><X className="h-5 w-5" /></button>
+                <button onClick={() => setShowModal(false)} className="p-2 hover:bg-slate-100 rounded" title="Close"><X className="h-5 w-5" /></button>
               </div>
               <form onSubmit={handleSubmit} className="p-6">
                 <div className="grid grid-cols-2 gap-4 mb-6">
