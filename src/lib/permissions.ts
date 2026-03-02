@@ -42,12 +42,24 @@ const rolePermissions: Record<UserRole, Permission[]> = {
     'dashboard:read',
   ],
   stock_manager: [
-    // Products
-    'products:read', 'products:create', 'products:update', 'products:delete',
-    // Stock
-    'stock:read', 'stock:update',
-    // Categories
-    'categories:read', 'categories:create', 'categories:update', 'categories:delete',
+    // Products - read only
+    'products:read',
+    // Categories - read only
+    'categories:read',
+    // Suppliers - read only
+    'suppliers:read',
+    // Stock - read only
+    'stock:read',
+    // Invoices - read only
+    'invoices:read',
+    // Purchases - read only
+    'purchases:read',
+    // Quotations - read only
+    'quotations:read',
+    // Clients - read only
+    'clients:read',
+    // Reports - read only
+    'reports:read',
     // Dashboard
     'dashboard:read',
   ],

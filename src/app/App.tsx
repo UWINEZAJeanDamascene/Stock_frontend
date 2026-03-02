@@ -12,6 +12,7 @@ import StockPage from './pages/StockPage';
 import InvoicesPage from './pages/InvoicesPage';
 import PurchasesPage from './pages/PurchasesPage';
 import QuotationsPage from './pages/QuotationsPage';
+import UsersPage from './pages/UsersPage';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, loading } = useAuth();
@@ -124,6 +125,14 @@ function AppRoutes() {
         element={
           <ProtectedRoute>
             <QuotationsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/users"
+        element={
+          <ProtectedRoute>
+            <UsersPage />
           </ProtectedRoute>
         }
       />

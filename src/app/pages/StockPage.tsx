@@ -58,7 +58,12 @@ export default function StockPage() {
     try {
       setLoading(true);
       const [movementsRes, productsRes] = await Promise.all([
-        stockApi.getMovements({ type: filterType as 'in' | 'out' | 'adjustment' | undefined, page: 1, limit: 50 }),
+        stockApi.getMovements({ 
+          type: filterType as 'in' | 'out' | 'adjustment' | undefined, 
+          page: 1, 
+          limit: 50,
+          search: searchTerm || undefined
+        }),
         productsApi.getAll({ page: 1, limit: 100 })
       ]);
       

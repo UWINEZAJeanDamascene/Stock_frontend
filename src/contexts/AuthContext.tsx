@@ -7,12 +7,14 @@ interface User {
   name: string;
   email: string;
   role: UserRole;
+  mustChangePassword?: boolean;
 }
 
 interface AuthContextType {
   user: User | null;
   token: string | null;
   loading: boolean;
+  requirePasswordChange: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (name: string, email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
@@ -30,6 +32,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
   const [loading, setLoading] = useState(true);
+  const [requirePasswordChange, setRequirePasswordChange] = useState(false);
 
   useEffect(() => {
     const initAuth = async () => {
@@ -54,6 +57,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('token', response.token);
     setToken(response.token);
     setUser(response.data as User);
+    // Check if user needs to change password
+    if (response.requirePasswordChange) {
+      setRequirePasswordChange(true);
+    }
   };
 
   const register = async (name: string, email: string, password: string) => {
@@ -79,6 +86,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         user,
         token,
         loading,
+        requirePasswordChange,
         login,
         register,
         logout,

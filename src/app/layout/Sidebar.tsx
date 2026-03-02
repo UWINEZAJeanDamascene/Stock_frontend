@@ -12,23 +12,29 @@ import {
   BarChart3,
   Settings,
   LogOut,
-  X
+  X,
+  UserCog
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '../components/ui/utils';
 import { Button } from '@/app/components/ui/button';
 
+// Navigation items with required permissions
 const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-  { name: 'Products', href: '/products', icon: Package },
-  { name: 'Categories', href: '/categories', icon: Tags },
-  { name: 'Suppliers', href: '/suppliers', icon: Truck },
-  { name: 'Clients', href: '/clients', icon: Users },
-  { name: 'Stock', href: '/stock', icon: Warehouse },
-  { name: 'Invoices', href: '/invoices', icon: FileText },
-  { name: 'Purchases', href: '/purchases', icon: ShoppingCart },
-  { name: 'Quotations', href: '/quotations', icon: Quote },
-  { name: 'Reports', href: '/reports', icon: BarChart3 },
+  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, permission: 'dashboard:read' as const },
+  { name: 'Products', href: '/products', icon: Package, permission: 'products:read' as const },
+  { name: 'Categories', href: '/categories', icon: Tags, permission: 'categories:read' as const },
+  { name: 'Suppliers', href: '/suppliers', icon: Truck, permission: 'suppliers:read' as const },
+  { name: 'Clients', href: '/clients', icon: Users, permission: 'clients:read' as const },
+  { name: 'Stock', href: '/stock', icon: Warehouse, permission: 'stock:read' as const },
+  { name: 'Invoices', href: '/invoices', icon: FileText, permission: 'invoices:read' as const },
+  { name: 'Purchases', href: '/purchases', icon: ShoppingCart, permission: 'purchases:read' as const },
+  { name: 'Quotations', href: '/quotations', icon: Quote, permission: 'quotations:read' as const },
+  { name: 'Reports', href: '/reports', icon: BarChart3, permission: 'reports:read' as const },
+];
+
+const adminNavigation = [
+  { name: 'User Management', href: '/users', icon: UserCog, permission: 'users:read' as const },
 ];
 
 interface SidebarProps {
@@ -37,7 +43,16 @@ interface SidebarProps {
 
 export function Sidebar({ onNavigate }: SidebarProps) {
   const location = useLocation();
-  const { user, logout } = useAuth();
+  const { user, logout, hasPermission: checkPermission, isAdmin } = useAuth();
+
+  // Filter navigation items based on user permissions
+  const filteredNavigation = navigation.filter(item => 
+    checkPermission(item.permission)
+  );
+
+  const filteredAdminNavigation = adminNavigation.filter(item => 
+    checkPermission(item.permission)
+  );
 
   const handleNavigate = () => {
     if (onNavigate) {
@@ -70,7 +85,28 @@ export function Sidebar({ onNavigate }: SidebarProps) {
       {/* Navigation */}
       <nav className="flex-1 overflow-y-auto px-3 py-4">
         <ul className="space-y-1">
-          {navigation.map((item) => {
+          {filteredNavigation.map((item) => {
+            const isActive = location.pathname === item.href || location.pathname.startsWith(item.href + '/');
+            return (
+              <li key={item.name}>
+                <Link
+                  to={item.href}
+                  onClick={handleNavigate}
+                  className={cn(
+                    'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
+                    isActive
+                      ? 'bg-indigo-600 text-white'
+                      : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                  )}
+                >
+                  <item.icon className="h-5 w-5" />
+                  {item.name}
+                </Link>
+              </li>
+            );
+          })}
+          {/* Admin-only navigation */}
+          {isAdmin() && filteredAdminNavigation.map((item) => {
             const isActive = location.pathname === item.href || location.pathname.startsWith(item.href + '/');
             return (
               <li key={item.name}>

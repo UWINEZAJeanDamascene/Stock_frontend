@@ -43,15 +43,15 @@ async function request<T>(endpoint: string, options: RequestOptions = {}): Promi
 // Auth API
 export const authApi = {
   login: (email: string, password: string) =>
-    request<{ success: boolean; token: string; data: unknown }>('/auth/login', {
+    request<{ success: boolean; token: string; data: unknown; requirePasswordChange?: boolean }>('/auth/login', {
       method: 'POST',
       body: { email, password },
     }),
   
-  register: (name: string, email: string, password: string, role?: string) =>
+  register: (name: string, email: string, password: string, role?: string, mustChangePassword?: boolean) =>
     request<{ success: boolean; token: string; data: unknown }>('/auth/register', {
       method: 'POST',
-      body: { name, email, password, role },
+      body: { name, email, password, role, mustChangePassword },
     }),
   
   getMe: () => request<{ success: boolean; data: unknown }>('/auth/me'),
@@ -187,6 +187,7 @@ export const stockApi = {
     endDate?: string;
     page?: number; 
     limit?: number;
+    search?: string;
   }) => {
     const query = new URLSearchParams(params as Record<string, string>).toString();
     return request<{ success: boolean; data: unknown }>(`/stock/movements${query ? `?${query}` : ''}`);
@@ -361,16 +362,21 @@ export const reportsApi = {
   },
 };
 
-// Users API
+// Users API (Admin only)
 export const usersApi = {
-  getAll: (params?: { page?: number; limit?: number; role?: string }) => {
+  getAll: (params?: { page?: number; limit?: number; role?: string; isActive?: boolean }) => {
     const query = new URLSearchParams(params as Record<string, string>).toString();
     return request<{ success: boolean; data: unknown }>(`/users${query ? `?${query}` : ''}`);
   },
   getById: (id: string) => request<{ success: boolean; data: unknown }>(`/users/${id}`),
-  create: (user: unknown) => request<{ success: boolean; data: unknown }>('/users', { method: 'POST', body: user }),
+  create: (user: { name: string; email: string; role?: string; generateTemp?: boolean; password?: string }) =>
+    request<{ success: boolean; data: unknown; tempPassword?: string }>('/users', { method: 'POST', body: user }),
   update: (id: string, user: unknown) => request<{ success: boolean; data: unknown }>(`/users/${id}`, { method: 'PUT', body: user }),
   delete: (id: string) => request<{ success: boolean; message: string }>(`/users/${id}`, { method: 'DELETE' }),
+  resetPassword: (id: string, body?: { newPassword?: string }) =>
+    request<{ success: boolean; message: string; tempPassword?: string }>(`/users/${id}/reset-password`, { method: 'POST', body }),
+  toggleStatus: (id: string) =>
+    request<{ success: boolean; data: unknown; message: string }>(`/users/${id}/toggle-status`, { method: 'PUT' }),
   getActionLogs: (userId: string, params?: { page?: number; limit?: number; module?: string }) => {
     const query = new URLSearchParams(params as Record<string, string>).toString();
     return request<{ success: boolean; data: unknown }>(`/users/${userId}/action-logs${query ? `?${query}` : ''}`);

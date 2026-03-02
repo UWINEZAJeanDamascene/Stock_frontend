@@ -114,6 +114,30 @@ export default function DashboardPage() {
     fetchChartData();
   }, [salesPeriod, stockPeriod]);
 
+  // Format large numbers for display (supports k, M, B for thousands, millions, billions)
+  const formatLargeNumber = (value: number): string => {
+    if (value >= 1e9) {
+      return `FRW ${(value / 1e9).toFixed(1)}B`;
+    } else if (value >= 1e6) {
+      return `FRW ${(value / 1e6).toFixed(1)}M`;
+    } else if (value >= 1e3) {
+      return `FRW ${(value / 1e3).toFixed(1)}k`;
+    }
+    return `FRW ${value.toLocaleString()}`;
+  };
+
+  // Format number for Y-axis
+  const formatYAxis = (value: number): string => {
+    if (value >= 1e9) {
+      return `${(value / 1e9).toFixed(1)}B`;
+    } else if (value >= 1e6) {
+      return `${(value / 1e6).toFixed(1)}M`;
+    } else if (value >= 1e3) {
+      return `${(value / 1e3).toFixed(1)}k`;
+    }
+    return value.toString();
+  };
+
   // Calculate stats from real data
   const totalProducts = data?.products?.total || 0;
   const totalClients = data?.clients?.total || 0;
@@ -148,7 +172,7 @@ export default function DashboardPage() {
     },
     { 
       title: 'Total Revenue', 
-      value: `FRW ${totalRevenue.toLocaleString()}`, 
+      value: formatLargeNumber(totalRevenue), 
       icon: DollarSign, 
       color: 'bg-green-500',
       change: `${monthlyGrowth >= 0 ? '+' : ''}${monthlyGrowth}%`,
@@ -255,9 +279,15 @@ export default function DashboardPage() {
                         </defs>
                         <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                         <XAxis dataKey="month" stroke="#64748b" fontSize={12} />
-                        <YAxis stroke="#64748b" fontSize={12} tickFormatter={(value) => `FRW ${value/1000}k`} />
+                        <YAxis 
+                          stroke="#64748b" 
+                          fontSize={12} 
+                          tickFormatter={formatYAxis}
+                          domain={[0, 'auto']}
+                          allowDecimals={false}
+                        />
                         <Tooltip 
-                          formatter={(value: number) => [`FRW ${value.toLocaleString()}`, 'Sales']}
+                          formatter={(value: number) => [formatLargeNumber(value), 'Sales']}
                           contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
                         />
                         <Area 
@@ -283,7 +313,7 @@ export default function DashboardPage() {
                       <div>
                         <p className="text-sm text-slate-500">Total Sales</p>
                         <p className="text-xl font-bold text-slate-800">
-                          FRW {salesData.reduce((sum, item) => sum + item.sales, 0).toLocaleString()}
+                          {formatLargeNumber(salesData.reduce((sum, item) => sum + item.sales, 0))}
                         </p>
                       </div>
                       <div className="text-right">
@@ -326,9 +356,16 @@ export default function DashboardPage() {
                       <BarChart data={stockData}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                         <XAxis dataKey="type" stroke="#64748b" fontSize={12} />
-                        <YAxis stroke="#64748b" fontSize={12} />
+                        <YAxis 
+                          stroke="#64748b" 
+                          fontSize={12} 
+                          tickFormatter={formatYAxis}
+                          domain={[0, 'auto']}
+                          allowDecimals={false}
+                        />
                         <Tooltip 
                           contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                          formatter={(value: number) => [formatLargeNumber(value), 'Quantity']}
                         />
                         <Bar dataKey="quantity" fill="#6366f1" radius={[4, 4, 0, 0]} />
                       </BarChart>
@@ -346,13 +383,13 @@ export default function DashboardPage() {
                       <div>
                         <p className="text-sm text-slate-500">Stock In</p>
                         <p className="text-xl font-bold text-green-600">
-                          {stockData.find(s => s.type === 'in')?.quantity?.toLocaleString() || 0}
+                          {formatLargeNumber(stockData.find(s => s.type === 'in')?.quantity || 0)}
                         </p>
                       </div>
                       <div className="text-right">
                         <p className="text-sm text-slate-500">Stock Out</p>
                         <p className="text-xl font-bold text-red-600">
-                          {stockData.find(s => s.type === 'out')?.quantity?.toLocaleString() || 0}
+                          {formatLargeNumber(stockData.find(s => s.type === 'out')?.quantity || 0)}
                         </p>
                       </div>
                     </div>
@@ -375,11 +412,11 @@ export default function DashboardPage() {
                 </div>
                 <div className="p-3 md:p-4 bg-green-50 rounded-lg">
                   <p className="text-xs md:text-sm text-slate-500">Monthly Paid</p>
-                  <p className="text-lg md:text-2xl font-bold text-green-600">FRW {data?.invoices?.monthly?.paid?.toLocaleString() || 0}</p>
+                  <p className="text-lg md:text-2xl font-bold text-green-600">{formatLargeNumber(data?.invoices?.monthly?.paid || 0)}</p>
                 </div>
                 <div className="p-3 md:p-4 bg-blue-50 rounded-lg">
                   <p className="text-xs md:text-sm text-slate-500">Yearly Total</p>
-                  <p className="text-lg md:text-2xl font-bold text-blue-600">FRW {data?.invoices?.yearly?.total?.toLocaleString() || 0}</p>
+                  <p className="text-lg md:text-2xl font-bold text-blue-600">{formatLargeNumber(data?.invoices?.yearly?.total || 0)}</p>
                 </div>
               </div>
             </div>

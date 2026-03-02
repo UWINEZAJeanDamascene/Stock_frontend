@@ -102,6 +102,11 @@ export default function ProductsPage() {
   const [submitting, setSubmitting] = useState(false);
   const [exporting, setExporting] = useState(false);
   
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalProducts, setTotalProducts] = useState(0);
+  
   // Dropdown menu state
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
 
@@ -129,6 +134,11 @@ export default function ProductsPage() {
 
   useEffect(() => {
     fetchData();
+  }, [searchTerm, filterCategory, filterStatus, currentPage]);
+
+  // Reset page when search or filters change
+  useEffect(() => {
+    setCurrentPage(1);
   }, [searchTerm, filterCategory, filterStatus]);
 
   const fetchData = async () => {
@@ -137,8 +147,8 @@ export default function ProductsPage() {
       
       // Build filters - only include non-empty values
       const params: Record<string, string> = {
-        page: '1', 
-        limit: '100'
+        page: currentPage.toString(), 
+        limit: '20'
       };
       
       if (searchTerm.trim()) {
@@ -160,8 +170,12 @@ export default function ProductsPage() {
       ]);
       
       if (productsRes.success) {
-        const data = productsRes as { data: Product[] };
+        const data = productsRes as { data: Product[]; pagination?: { total: number; pages: number; page: number } };
         setProducts(data.data || []);
+        if (data.pagination) {
+          setTotalPages(data.pagination.pages || 1);
+          setTotalProducts(data.pagination.total || 0);
+        }
       }
       if (categoriesRes.success) {
         setCategories(categoriesRes.data as Category[]);
@@ -651,6 +665,54 @@ const canEditProducts = hasPermission('products:create') || hasPermission('produ
                   </button>
                 </div>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-between mt-4 px-2">
+            <div className="text-sm text-slate-500">
+              Showing {((currentPage - 1) * 20) + 1} to {Math.min(currentPage * 20, totalProducts)} of {totalProducts} products
+            </div>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+                className="px-3 py-1.5 border rounded-lg text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50"
+              >
+                Previous
+              </button>
+              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                let pageNum;
+                if (totalPages <= 5) {
+                  pageNum = i + 1;
+                } else if (currentPage <= 3) {
+                  pageNum = i + 1;
+                } else if (currentPage >= totalPages - 2) {
+                  pageNum = totalPages - 4 + i;
+                } else {
+                  pageNum = currentPage - 2 + i;
+                }
+                return (
+                  <button
+                    key={pageNum}
+                    onClick={() => setCurrentPage(pageNum)}
+                    className={`px-3 py-1.5 border rounded-lg text-sm ${
+                      currentPage === pageNum ? 'bg-indigo-600 text-white' : 'hover:bg-slate-50'
+                    }`}
+                  >
+                    {pageNum}
+                  </button>
+                );
+              })}
+              <button
+                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+                className="px-3 py-1.5 border rounded-lg text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50"
+              >
+                Next
+              </button>
             </div>
           </div>
         )}
