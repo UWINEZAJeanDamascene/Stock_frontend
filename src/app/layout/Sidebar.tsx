@@ -83,8 +83,8 @@ export function Sidebar({ onNavigate }: SidebarProps) {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto px-3 py-4">
-        <ul className="space-y-1">
+      <nav className="flex-1 overflow-y-auto px-2 py-2 md:px-3 md:py-4">
+        <ul className="space-y-0.5 md:space-y-1">
           {filteredNavigation.map((item) => {
             const isActive = location.pathname === item.href || location.pathname.startsWith(item.href + '/');
             return (
@@ -93,13 +93,13 @@ export function Sidebar({ onNavigate }: SidebarProps) {
                   to={item.href}
                   onClick={handleNavigate}
                   className={cn(
-                    'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
+                    'flex items-center gap-2 rounded-lg px-2 py-2 text-xs md:text-sm md:px-3 md:py-2.5 font-medium transition-colors',
                     isActive
                       ? 'bg-indigo-600 text-white'
                       : 'text-slate-300 hover:bg-slate-800 hover:text-white'
                   )}
                 >
-                  <item.icon className="h-5 w-5" />
+                  <item.icon className="h-4 w-4 md:h-5 md:w-5" />
                   {item.name}
                 </Link>
               </li>
@@ -114,13 +114,13 @@ export function Sidebar({ onNavigate }: SidebarProps) {
                   to={item.href}
                   onClick={handleNavigate}
                   className={cn(
-                    'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
+                    'flex items-center gap-2 rounded-lg px-2 py-2 text-xs md:text-sm md:px-3 md:py-2.5 font-medium transition-colors',
                     isActive
                       ? 'bg-indigo-600 text-white'
                       : 'text-slate-300 hover:bg-slate-800 hover:text-white'
                   )}
                 >
-                  <item.icon className="h-5 w-5" />
+                  <item.icon className="h-4 w-4 md:h-5 md:w-5" />
                   {item.name}
                 </Link>
               </li>
@@ -130,9 +130,9 @@ export function Sidebar({ onNavigate }: SidebarProps) {
       </nav>
 
       {/* User section */}
-      <div className="border-t border-slate-800 p-4">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-600 text-white text-sm font-medium">
+      <div className="border-t border-slate-800 p-2 md:p-4">
+        <div className="flex items-center gap-2 mb-2 md:mb-3 md:gap-3">
+          <div className="flex h-8 w-8 md:h-9 md:w-9 items-center justify-center rounded-full bg-indigo-600 text-white text-sm font-medium">
             {user?.name?.charAt(0).toUpperCase() || 'U'}
           </div>
           <div className="flex-1 overflow-hidden">
@@ -144,7 +144,7 @@ export function Sidebar({ onNavigate }: SidebarProps) {
           <Link
             to="/settings"
             onClick={handleNavigate}
-            className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-slate-800 px-3 py-2 text-sm font-medium text-slate-300 hover:bg-slate-700 hover:text-white transition-colors"
+            className="flex flex-1 items-center justify-center gap-1 md:gap-2 rounded-lg bg-slate-800 px-2 py-2 text-xs md:text-sm font-medium text-slate-300 hover:bg-slate-700 hover:text-white transition-colors"
           >
             <Settings className="h-4 w-4" />
             <span className="hidden sm:inline">Settings</span>
