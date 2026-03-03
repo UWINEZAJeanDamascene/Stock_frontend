@@ -701,7 +701,7 @@ const canEditInvoices = hasPermission('invoices:create') || hasPermission('invoi
                   <h2 className="text-lg font-semibold">Invoice Details</h2>
                   <p className="text-sm text-slate-500">{selectedInvoice.invoiceNumber}</p>
                 </div>
-                <button onClick={() => { setShowViewModal(false); setSelectedInvoice(null); }} className="p-2 hover:bg-slate-100 rounded"><X className="h-5 w-5" /></button>
+                <button onClick={() => { setShowViewModal(false); setSelectedInvoice(null); }} className="p-2 hover:bg-slate-100 rounded" title="Close"><X className="h-5 w-5" /></button>
               </div>
               <div className="p-6">
                 {/* Header Info */}
@@ -828,7 +828,7 @@ const canEditInvoices = hasPermission('invoices:create') || hasPermission('invoi
             <div className="bg-white rounded-xl shadow-xl w-full max-w-md mx-4">
               <div className="flex items-center justify-between p-6 border-b">
                 <h2 className="text-lg font-semibold">Record Payment</h2>
-                <button onClick={() => { setShowPaymentModal(false); setSelectedInvoice(null); }} className="p-2 hover:bg-slate-100 rounded"><X className="h-5 w-5" /></button>
+                <button onClick={() => { setShowPaymentModal(false); setSelectedInvoice(null); }} className="p-2 hover:bg-slate-100 rounded" title="Close"><X className="h-5 w-5" /></button>
               </div>
               <form onSubmit={handleRecordPayment} className="p-6 space-y-4">
                 <div>
@@ -872,7 +872,7 @@ const canEditInvoices = hasPermission('invoices:create') || hasPermission('invoi
             <div className="bg-white rounded-xl shadow-xl w-full max-w-md mx-4">
               <div className="flex items-center justify-between p-6 border-b">
                 <h2 className="text-lg font-semibold text-red-600">Cancel Invoice</h2>
-                <button onClick={() => { setShowCancelModal(false); setSelectedInvoice(null); }} className="p-2 hover:bg-slate-100 rounded"><X className="h-5 w-5" /></button>
+                <button onClick={() => { setShowCancelModal(false); setSelectedInvoice(null); }} className="p-2 hover:bg-slate-100 rounded" title="Close"><X className="h-5 w-5" /></button>
               </div>
               <form onSubmit={handleCancelInvoice} className="p-6 space-y-4">
                 {selectedInvoice.stockDeducted && (
@@ -910,7 +910,7 @@ const canEditInvoices = hasPermission('invoices:create') || hasPermission('invoi
             <div className="bg-white rounded-xl shadow-xl w-full max-w-md mx-4">
               <div className="flex items-center justify-between p-6 border-b">
                 <h2 className="text-lg font-semibold text-red-600">Delete Invoice</h2>
-                <button onClick={() => { setShowDeleteModal(false); setSelectedInvoice(null); }} className="p-2 hover:bg-slate-100 rounded"><X className="h-5 w-5" /></button>
+                <button onClick={() => { setShowDeleteModal(false); setSelectedInvoice(null); }} className="p-2 hover:bg-slate-100 rounded" title="Close"><X className="h-5 w-5" /></button>
               </div>
               <div className="p-6 space-y-4">
                 <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg flex items-center gap-2">
@@ -936,7 +936,7 @@ const canEditInvoices = hasPermission('invoices:create') || hasPermission('invoi
             <div className="bg-white rounded-xl shadow-xl w-full max-w-md mx-4">
               <div className="flex items-center justify-between p-6 border-b">
                 <h2 className="text-lg font-semibold">SDC/Receipt Information</h2>
-                <button onClick={() => { setShowReceiptModal(false); setSelectedInvoice(null); }} className="p-2 hover:bg-slate-100 rounded"><X className="h-5 w-5" /></button>
+                <button onClick={() => { setShowReceiptModal(false); setSelectedInvoice(null); }} className="p-2 hover:bg-slate-100 rounded" title="Close"><X className="h-5 w-5" /></button>
               </div>
               <form onSubmit={handleSaveReceiptMetadata} className="p-6 space-y-4">
                 <div>
@@ -977,7 +977,7 @@ const canEditInvoices = hasPermission('invoices:create') || hasPermission('invoi
             <div className="bg-white rounded-xl shadow-xl w-full max-w-5xl mx-4 max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between p-6 border-b">
                 <h2 className="text-lg font-semibold">Create Invoice</h2>
-                <button onClick={() => setShowModal(false)} className="p-2 hover:bg-slate-100 rounded"><X className="h-5 w-5" /></button>
+                <button onClick={() => setShowModal(false)} className="p-2 hover:bg-slate-100 rounded" title="Close"><X className="h-5 w-5" /></button>
               </div>
               <form onSubmit={handleSubmit} className="p-6">
                 {/* Invoice Header */}

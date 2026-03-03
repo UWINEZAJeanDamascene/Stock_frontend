@@ -288,7 +288,7 @@ export default function StockPage() {
             <div className="bg-white rounded-xl shadow-xl w-full max-w-lg">
               <div className="flex items-center justify-between p-4 md:p-6 border-b">
                 <h2 className="text-lg font-semibold">{getTypeLabel(modalType)}</h2>
-                <button onClick={() => setShowModal(false)} className="p-2 hover:bg-slate-100 rounded"><X className="h-5 w-5" /></button>
+                <button onClick={() => setShowModal(false)} className="p-2 hover:bg-slate-100 rounded" title="Close"><X className="h-5 w-5" /></button>
               </div>
               <form onSubmit={handleSubmit} className="p-4 md:p-6 space-y-4">
                 <div>

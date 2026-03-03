@@ -447,12 +447,13 @@ const canEditProducts = hasPermission('products:create') || hasPermission('produ
                         </td>
                         <td className="p-4 text-right">
                           <div className="relative inline-block actions-menu">
-                            <button 
+                            <button
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setOpenMenuId(openMenuId === product._id ? null : product._id);
                               }}
                               className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg"
+                              title="More Actions"
                             >
                               <MoreHorizontal className="h-5 w-5" />
                             </button>
@@ -520,7 +521,7 @@ const canEditProducts = hasPermission('products:create') || hasPermission('produ
             <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between p-4 md:p-6 border-b">
                 <h2 className="text-lg font-semibold">{editingProduct ? 'Edit Product' : 'Add Product'}</h2>
-                <button onClick={() => setShowModal(false)} className="p-2 hover:bg-slate-100 rounded"><X className="h-5 w-5" /></button>
+                <button onClick={() => setShowModal(false)} className="p-2 hover:bg-slate-100 rounded" title="Close"><X className="h-5 w-5" /></button>
               </div>
               <form onSubmit={handleSubmit} className="p-4 md:p-6 space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -593,7 +594,7 @@ const canEditProducts = hasPermission('products:create') || hasPermission('produ
             <div className="bg-white rounded-xl shadow-xl w-full max-w-3xl max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between p-4 md:p-6 border-b">
                 <h2 className="text-lg font-semibold">Product Details</h2>
-                <button onClick={() => setShowDetailModal(false)} className="p-2 hover:bg-slate-100 rounded"><X className="h-5 w-5" /></button>
+                <button onClick={() => setShowDetailModal(false)} className="p-2 hover:bg-slate-100 rounded" title="Close"><X className="h-5 w-5" /></button>
               </div>
               <div className="p-4 md:p-6 space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

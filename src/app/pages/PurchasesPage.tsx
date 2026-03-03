@@ -627,7 +627,7 @@ export default function PurchasesPage() {
                   <h2 className="text-lg font-semibold">Purchase Details</h2>
                   <p className="text-sm text-slate-500">{selectedPurchase.purchaseNumber}</p>
                 </div>
-                <button onClick={() => { setShowViewModal(false); setSelectedPurchase(null); }} className="p-2 hover:bg-slate-100 rounded"><X className="h-5 w-5" /></button>
+                <button onClick={() => { setShowViewModal(false); setSelectedPurchase(null); }} className="p-2 hover:bg-slate-100 rounded" title="Close"><X className="h-5 w-5" /></button>
               </div>
               <div className="p-6">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
@@ -734,7 +734,7 @@ export default function PurchasesPage() {
             <div className="bg-white rounded-xl shadow-xl w-full max-w-md mx-4">
               <div className="flex items-center justify-between p-6 border-b">
                 <h2 className="text-lg font-semibold">Record Payment</h2>
-                <button onClick={() => { setShowPaymentModal(false); setSelectedPurchase(null); }} className="p-2 hover:bg-slate-100 rounded"><X className="h-5 w-5" /></button>
+                <button onClick={() => { setShowPaymentModal(false); setSelectedPurchase(null); }} className="p-2 hover:bg-slate-100 rounded" title="Close"><X className="h-5 w-5" /></button>
               </div>
               <form onSubmit={handleRecordPayment} className="p-6 space-y-4">
                 <div>
@@ -778,7 +778,7 @@ export default function PurchasesPage() {
             <div className="bg-white rounded-xl shadow-xl w-full max-w-md mx-4">
               <div className="flex items-center justify-between p-6 border-b">
                 <h2 className="text-lg font-semibold text-red-600">Cancel Purchase</h2>
-                <button onClick={() => { setShowCancelModal(false); setSelectedPurchase(null); }} className="p-2 hover:bg-slate-100 rounded"><X className="h-5 w-5" /></button>
+                <button onClick={() => { setShowCancelModal(false); setSelectedPurchase(null); }} className="p-2 hover:bg-slate-100 rounded" title="Close"><X className="h-5 w-5" /></button>
               </div>
               <form onSubmit={handleCancelPurchase} className="p-6 space-y-4">
                 {selectedPurchase.stockAdded && (
@@ -816,7 +816,7 @@ export default function PurchasesPage() {
             <div className="bg-white rounded-xl shadow-xl w-full max-w-md mx-4">
               <div className="flex items-center justify-between p-6 border-b">
                 <h2 className="text-lg font-semibold text-red-600">Delete Purchase</h2>
-                <button onClick={() => { setShowDeleteModal(false); setSelectedPurchase(null); }} className="p-2 hover:bg-slate-100 rounded"><X className="h-5 w-5" /></button>
+                <button onClick={() => { setShowDeleteModal(false); setSelectedPurchase(null); }} className="p-2 hover:bg-slate-100 rounded" title="Close"><X className="h-5 w-5" /></button>
               </div>
               <div className="p-6 space-y-4">
                 <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg flex items-center gap-2">
@@ -842,7 +842,7 @@ export default function PurchasesPage() {
             <div className="bg-white rounded-xl shadow-xl w-full max-w-5xl mx-4 max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between p-6 border-b">
                 <h2 className="text-lg font-semibold">Create Purchase</h2>
-                <button onClick={() => setShowModal(false)} className="p-2 hover:bg-slate-100 rounded"><X className="h-5 w-5" /></button>
+                <button onClick={() => setShowModal(false)} className="p-2 hover:bg-slate-100 rounded" title="Close"><X className="h-5 w-5" /></button>
               </div>
               <form onSubmit={handleSubmit} className="p-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">

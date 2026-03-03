@@ -360,9 +360,10 @@ const canEditSuppliers = hasPermission('suppliers:create') || hasPermission('sup
                       <td className="p-4 text-sm">{supplier.contact?.phone || '-'}</td>
                       <td className="p-4 text-sm">{getLocation(supplier)}</td>
                       <td className="p-4 text-center">
-                        <button 
+                        <button
                           onClick={() => handleViewProducts(supplier)}
                           className="inline-flex items-center gap-1 px-2 py-1 bg-indigo-100 text-indigo-700 rounded-full text-xs hover:bg-indigo-200 cursor-pointer"
+                          title="View Products"
                         >
                           <Package className="h-3 w-3" />
                           {supplier.productsCount || supplier.productsSupplied?.length || 0} products
@@ -377,12 +378,13 @@ const canEditSuppliers = hasPermission('suppliers:create') || hasPermission('sup
                       </td>
                       <td className="p-4 text-right">
                         <div className="relative inline-block actions-menu">
-                            <button 
+                            <button
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setOpenMenuId(openMenuId === supplier._id ? null : supplier._id);
                               }}
                               className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg"
+                              title="More Actions"
                             >
                               <MoreHorizontal className="h-5 w-5" />
                             </button>
@@ -447,7 +449,7 @@ const canEditSuppliers = hasPermission('suppliers:create') || hasPermission('sup
             <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between p-4 md:p-6 border-b">
                 <h2 className="text-lg font-semibold">{editingSupplier ? 'Edit Supplier' : 'Add Supplier'}</h2>
-                <button onClick={() => setShowModal(false)} className="p-2 hover:bg-slate-100 rounded"><X className="h-5 w-5" /></button>
+                <button onClick={() => setShowModal(false)} className="p-2 hover:bg-slate-100 rounded" title="Close"><X className="h-5 w-5" /></button>
               </div>
               <form onSubmit={handleSubmit} className="p-4 md:p-6 space-y-4">
                 <div>
@@ -515,7 +517,7 @@ const canEditSuppliers = hasPermission('suppliers:create') || hasPermission('sup
             <div className="bg-white rounded-xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between p-4 md:p-6 border-b">
                 <h2 className="text-lg font-semibold">Products Supplied by {selectedSupplierProducts.name}</h2>
-                <button onClick={() => setShowProductsModal(false)} className="p-2 hover:bg-slate-100 rounded"><X className="h-5 w-5" /></button>
+                <button onClick={() => setShowProductsModal(false)} className="p-2 hover:bg-slate-100 rounded" title="Close"><X className="h-5 w-5" /></button>
               </div>
               <div className="p-4 md:p-6">
                 {selectedSupplierProducts.productsSupplied && selectedSupplierProducts.productsSupplied.length > 0 ? (
