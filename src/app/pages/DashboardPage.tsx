@@ -265,6 +265,18 @@ export default function DashboardPage() {
     return value.toString();
   };
 
+  // Format large numbers for quantity (no currency prefix)
+  const formatQuantity = (value: number): string => {
+    if (value >= 1e9) {
+      return `${(value / 1e9).toFixed(1)}B`;
+    } else if (value >= 1e6) {
+      return `${(value / 1e6).toFixed(1)}M`;
+    } else if (value >= 1e3) {
+      return `${(value / 1e3).toFixed(1)}k`;
+    }
+    return value.toLocaleString();
+  };
+
   // Calculate stats from real data
   const totalProducts = data?.products?.total || 0;
   const totalClients = data?.clients?.total || 0;
@@ -510,7 +522,7 @@ export default function DashboardPage() {
                         />
                         <Tooltip 
                           contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                          formatter={(value: number) => [formatLargeNumber(value), 'Quantity']}
+                          formatter={(value: number) => [formatQuantity(value), 'Quantity']}
                         />
                         <Bar dataKey="quantity" fill="#6366f1" radius={[4, 4, 0, 0]} animationDuration={500} />
                       </BarChart>
@@ -528,13 +540,13 @@ export default function DashboardPage() {
                       <div>
                         <p className="text-sm text-slate-500">Stock In</p>
                         <p className="text-xl font-bold text-green-600">
-                          {formatLargeNumber(stockData.find(s => s.type === 'in')?.quantity || 0)}
+                          {formatQuantity(stockData.find(s => s.type === 'in')?.quantity || 0)}
                         </p>
                       </div>
                       <div className="text-right">
                         <p className="text-sm text-slate-500">Stock Out</p>
                         <p className="text-xl font-bold text-red-600">
-                          {formatLargeNumber(stockData.find(s => s.type === 'out')?.quantity || 0)}
+                          {formatQuantity(stockData.find(s => s.type === 'out')?.quantity || 0)}
                         </p>
                       </div>
                     </div>
@@ -568,16 +580,15 @@ export default function DashboardPage() {
                 </div>
               </div>
 
-              {/* Top Products by Revenue */}
+              {/* Top Products by Quantity */}
               <div className="bg-white rounded-xl p-4 md:p-6 shadow-sm border border-slate-200">
-                <h3 className="text-lg font-semibold text-slate-800 mb-4">Top Products by Revenue</h3>
+                <h3 className="text-lg font-semibold text-slate-800 mb-4">Top Products by Quantity</h3>
                 {topProducts.length > 0 ? (
                   <div className="h-64">
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart 
                         data={topProducts.map(p => ({
                           name: p._id?.name || 'Unknown',
-                          revenue: p.totalRevenue || 0,
                           quantity: p.totalQuantity || 0
                         })).reverse()} 
                         layout="vertical"
@@ -602,10 +613,10 @@ export default function DashboardPage() {
                           width={100}
                         />
                         <Tooltip 
-                          formatter={(value: number) => [formatLargeNumber(value), 'Revenue']}
+                          formatter={(value: number) => [formatLargeNumber(value), 'Quantity']}
                           contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
                         />
-                        <Bar dataKey="revenue" fill="#6366f1" radius={[0, 4, 4, 0]} animationDuration={500} />
+                        <Bar dataKey="quantity" fill="#6366f1" radius={[0, 4, 4, 0]} animationDuration={500} />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>
